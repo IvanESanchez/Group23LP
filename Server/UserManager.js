@@ -5,9 +5,14 @@ Date created: 6 / 30 / 2020
 
 //Project packages
 const mongo = require("./MongoHandler.js");
-
 var express = require("express");
+
 var router = express.Router();
+
+//Status code definitions
+const success = 200;
+const badRequest = 400;
+const conflict = 409;
 
 function doesUserExist(username, email) {
 	return false;
@@ -18,8 +23,8 @@ function createUser(username, password, email) {
 router.post("/register",  async (req, res, next) => {
 	//Make sure body exists
 	if (req.body == null) {
-		//Body was formatted incorrectly, return error code 400
-		res.status(400).json({});
+		//Body was formatted incorrectly, return error badRequest
+		res.status(badRequest).json({});
 		return;
 	}
 
@@ -30,8 +35,8 @@ router.post("/register",  async (req, res, next) => {
 
 	//Make sure body info exists
 	if (username == null || password == null || email == null) {
-		//Body was formatted incorrectly, return error code 400
-		res.status(400).json({});
+		//Body was formatted incorrectly, return error badRequest
+		res.status(badRequest).json({});
 		return;
 	}
 
@@ -40,12 +45,13 @@ router.post("/register",  async (req, res, next) => {
 		createUser(username, password, email);
 	}
 	else {
-		//User exists, return error code 409
-		res.status(409).json({});
+		//User exists, return error conflict
+		res.status(conflict).json({});
 		return;
 	}
 
-	res.status(200).json({});
+	//Return success
+	res.status(success).json({});
 });
 
 function attemptLogin(username, password) {
@@ -57,8 +63,8 @@ function createNewSession(ip, userid) {
 router.post("/login", async (req, res, next) => {
 	//Make sure body exists
 	if (req.body == null) new Promise(function(resolve, reject) {
-		//Body was formatted incorrectly, return error code 400
-		res.status(400).json({});
+		//Body was formatted incorrectly, return error badRequest
+		res.status(badRequest).json({});
 		return;
 	});
 
@@ -67,8 +73,8 @@ router.post("/login", async (req, res, next) => {
 
 	//Make sure body info exists
 	if (username == null || password == null) {
-		//Body was formatted incorrectly, return error code 400
-		res.status(400).json({});
+		//Body was formatted incorrectly, return error badRequest
+		res.status(badRequest).json({});
 		return;
 	}
 
@@ -79,13 +85,14 @@ router.post("/login", async (req, res, next) => {
 		session = createNewSession(req.ip, login);
 	}
 	else {
-		//Login failed, return error code 409
-		res.status(409).json({});
+		//Login failed, return error conflict
+		res.status(conflict).json({});
 		return;
 	}
 
+	//Return new session
 	var ret = {id:session};
-	res.status(200).json(ret);
+	res.status(success).json(ret);
 });
 
 module.exports = router;
