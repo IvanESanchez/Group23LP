@@ -7,20 +7,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'MyRecipeBox',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        // TODO: use this link to create a scrollable interface w/ header:
+        //  https://medium.com/flutter-community/how-to-code-a-dynamic-header-in-flutter-e171ec2231bf
+        primarySwatch: Colors.green,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'MyRecipeBox Home'),
     );
   }
 }
@@ -106,6 +99,39 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+
+      // NOTE:
+      // for help, consult https://api.flutter.dev/flutter/material/BottomNavigationBar/BottomNavigationBar.html
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.green,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.white,
+        currentIndex: 0, // this will be set when a new tab is tapped
+        //iconSize: 10.0,
+          type: BottomNavigationBarType.fixed,
+          items: [
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.home),
+            title: new Text('Home'), // NOTE: for icon help, consult https://api.flutter.dev/flutter/material/Icons-class.html
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.person),
+            title: new Text('My Profile'),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.list),
+            title: new Text('Recipes')
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.calendar_today),
+            title: new Text('Calendar')
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.loop),
+            title: new Text('Converter')
+          )
+        ],
+      ),
     );
   }
 }
