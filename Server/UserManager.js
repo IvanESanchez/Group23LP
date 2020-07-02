@@ -36,16 +36,33 @@ router.post("/register",  async (req, res, next) => {
 	}
 
 	if (!doesUserExist(username, email)) {
+		//User doesn't exists, create a new one.
 		createUser(username, password, email);
+	}
+	else {
+		//User exists, return error code 409
+		res.status(409).json({});
+		return;
 	}
 
 	res.status(200).json({});
 });
 
+function attemptLogin(username, password) {
+	return "1";
+}
+function createNewSession(ip, userid) {
+	return "1";
+}
 router.post("/login", async (req, res, next) => {
-	console.log(req.body);
+	//Make sure body exists
+	if (req.body == null) new Promise(function(resolve, reject) {
+		//Body was formatted incorrectly, return error code 400
+		res.status(400).json({});
+		return;
+	});
 
-	//TODO
+	var username = req.body.username;
 
 	var ret = {message:"Done"};
 	res.status(200).json(ret);
