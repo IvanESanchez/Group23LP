@@ -63,8 +63,28 @@ router.post("/login", async (req, res, next) => {
 	});
 
 	var username = req.body.username;
+	var password = req.body.password;
 
-	var ret = {message:"Done"};
+	//Make sure body info exists
+	if (username == null || password == null) {
+		//Body was formatted incorrectly, return error code 400
+		res.status(400).json({});
+		return;
+	}
+
+	var login = attemptLogin(username, password);
+	var session;
+	if (login != "") {
+		//Login successful, create new session
+		session = createNewSession(req.ip, login);
+	}
+	else {
+		//Login failed, return error code 409
+		res.status(409).json({});
+		return;
+	}
+
+	var ret = {id:session};
 	res.status(200).json(ret);
 });
 
