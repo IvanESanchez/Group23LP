@@ -10,7 +10,6 @@ const cors = require("cors");
 
 //Project packages
 const userManager = require("./UserManager.js");
-const mongo = require("./MongoHandler.js");
 
 //Express setup
 const app = express();
@@ -30,7 +29,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use("/UserManager", userManager);
+app.use("/api/users", userManager);
 
 //Start server on port 5000
 app.listen(5000, () => {
