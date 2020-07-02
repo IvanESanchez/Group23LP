@@ -18,7 +18,9 @@ function createUser(username, password, email) {
 router.post("/register",  async (req, res, next) => {
 	//Make sure body exists
 	if (req.body == null) {
-
+		//Body was formatted incorrectly, return error code 400
+		res.status(400).json({});
+		return;
 	}
 
 	//Collect information from body
@@ -29,14 +31,15 @@ router.post("/register",  async (req, res, next) => {
 	//Make sure body info exists
 	if (username == null || password == null || email == null) {
 		//Body was formatted incorrectly, return error code 400
-		res.status(400);
+		res.status(400).json({});
+		return;
 	}
 
 	if (!doesUserExist(username, email)) {
 		createUser(username, password, email);
 	}
 
-	res.status(200);
+	res.status(200).json({});
 });
 
 router.post("/login", async (req, res, next) => {
