@@ -5,10 +5,15 @@ import 'package:my_recipe_box/recipes.dart';
 import 'package:my_recipe_box/calendar.dart';
 import 'package:my_recipe_box/converter.dart';
 
+// figma prototype for reference: https://www.figma.com/file/YY8KiR8jFirvmOcPsZyNer/Untitled
+
 void main() {
   runApp(MaterialApp(
     // Title
       title: "MyRecipeBox",
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
       // Home
       home: MyHome()));
 }
@@ -42,14 +47,14 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       // Appbar
-      appBar: AppBar(
+      appBar: AppBar( // NOTE: AppBar is the header of the app
         // Title
-        title: Text("MyRecipeBox"),
+        title: Text("<Name of User>                    <Today's Date>"), // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
         // Set the background color of the App Bar
         backgroundColor: Colors.green,
       ),
       // Set the TabBar view as the body of the Scaffold
-      body: TabBarView(
+      body: TabBarView( // NOTE: TabBarView is the footer of the app
         // Add tabs as widgets
         children: <Widget>[Home(), MyProfile(), Recipes(), Calendar(), Converter()],
         // set the controller
