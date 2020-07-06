@@ -49,11 +49,13 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('EEEEEEEE, MMMM dd').format(now); // NOTE: the month text will be truncated to 4 characters long.
+    String userName = '<Name of User>'; // TODO: get the actual user's name
+    String spacing = "                 ";
     return Scaffold(
       // Appbar
       appBar: AppBar( // NOTE: AppBar is the header of the app
         // Title
-        title: Text("<Name of User>                 " + formattedDate), // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
+        title: Text(userName + spacing + formattedDate), // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
         centerTitle: true,
         backgroundColor: Colors.green,  // Set the background color of the App Bar
       ),
