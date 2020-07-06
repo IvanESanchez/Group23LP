@@ -5,6 +5,8 @@ import 'package:my_recipe_box/recipes.dart';
 import 'package:my_recipe_box/calendar.dart';
 import 'package:my_recipe_box/converter.dart';
 
+import 'package:intl/intl.dart'; // necessary for getting the current date for the header bar
+
 // figma prototype for reference: https://www.figma.com/file/YY8KiR8jFirvmOcPsZyNer/Untitled
 
 void main() {
@@ -45,13 +47,14 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('EEEEEE, MMMM d').format(now); // NOTE: the month text will be truncated to 5 characters long.
     return Scaffold(
       // Appbar
       appBar: AppBar( // NOTE: AppBar is the header of the app
         // Title
-        title: Text("<Name of User>                    <Today's Date>"), // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
-        // Set the background color of the App Bar
-        backgroundColor: Colors.green,
+        title: Text("<Name of User>                    " + formattedDate), // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
+        backgroundColor: Colors.green,  // Set the background color of the App Bar
       ),
       // Set the TabBar view as the body of the Scaffold
       body: TabBarView( // NOTE: TabBarView is the footer of the app
