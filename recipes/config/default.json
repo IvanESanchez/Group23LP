@@ -1,0 +1,5 @@
+{
+    "mongoURI": "mongodb+srv://COP-G32:<pass>@RecipeCluster-u1eml.mongodb.net/RecipeData?retryWrites=true&w=majority",
+    "jwtSecret": "RecipeSecret",
+    "githubToken": "ICKKCKGithub"
+}
