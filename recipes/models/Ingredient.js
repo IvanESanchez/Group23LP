@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const IngredientSchema = new mongoose.Schema({
 	userid: {
-		type: Number,
+		type: String,
 		required: true
 	},
     name: {
