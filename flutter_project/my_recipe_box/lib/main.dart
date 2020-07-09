@@ -58,7 +58,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat("EEEEEEEE, MMMM dd").format(now); // NOTE: the month text will be truncated to 5 characters long.
+    String formattedDate = DateFormat("EEEEEEEE, MMMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
     //String userName = '<Name of User>'; // TODO: get the actual user's name
     //String spacing = "                 ";
     return Scaffold(
@@ -104,6 +104,16 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
         color: Colors.green,
         // set the tab bar as the child of bottom navigation bar
         child: TabBar(
+          // setup the controller
+          controller: controller,
+
+          labelPadding: const EdgeInsets.all(8.0),
+          indicatorColor: Colors.white, // this sets the color for the glowing line under the current tab
+          indicatorWeight: 5,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.black,
+          unselectedLabelStyle: TextStyle(),
+
           tabs: <Tab>[
             Tab(
               // set icon to the tab
@@ -120,18 +130,13 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
             ),
             Tab(
               icon: Icon(Icons.calendar_today),
-              text: "Calendar",
+              text: "Calendar\n",
             ),
             Tab(
               icon: Icon(Icons.loop),
-              text: "Converter",
+              text: "Converter\n",
             ),
           ],
-          // setup the controller
-          controller: controller,
-
-          labelPadding: const EdgeInsets.all(8.0),
-          indicatorColor: Colors.white, // this sets the color for the glowing line under the current tab
         ),
       ),
     );
