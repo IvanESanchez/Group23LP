@@ -45,19 +45,45 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+
+  Choice _selectedChoice = choices[0]; // The app's "state".
+
+  void _select(Choice choice) {
+  // Causes the app to rebuild with the new _selectedChoice.
+  setState(() {
+  _selectedChoice = choice;
+  });
+  }
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EEEEEEEE, MMMM dd').format(now); // NOTE: the month text will be truncated to 4 characters long.
-    String userName = '<Name of User>'; // TODO: get the actual user's name
-    String spacing = "                 ";
+    String formattedDate = DateFormat('EEEEEEEE, MMMM dd').format(now); // NOTE: the month text will be truncated to 5 characters long.
+    //String userName = '<Name of User>'; // TODO: get the actual user's name
+    //String spacing = "                 ";
     return Scaffold(
       // Appbar
       appBar: AppBar( // NOTE: AppBar is the header of the app
         // Title
-        title: Text(userName + spacing + formattedDate), // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
+        // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
+        title: Text(
+          //userName + spacing + formattedDate,
+          formattedDate,
+        ),
+
         centerTitle: true,
         backgroundColor: Colors.green,  // Set the background color of the App Bar
+        actions: <Widget>[
+          // action button
+          IconButton(
+            icon: Icon(choices[0].icon),
+            onPressed: () {
+              _select(choices[0]);
+            },
+          ),
+          // action button
+          // overflow menu
+
+        ],
       ),
       // Set the TabBar view as the body of the Scaffold
       body: TabBarView( // NOTE: TabBarView is the footer of the app
@@ -75,16 +101,16 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
           tabs: <Tab>[
             Tab(
               // set icon to the tab
-              icon: Icon(Icons.home),
-              text: 'Home',
+              icon: Icon(Icons.local_grocery_store),
+              text: 'Grocery\n    List',
             ),
             Tab(
-              icon: Icon(Icons.person),
-              text: 'My Profile',
+              icon: Icon(Icons.today),
+              text: 'Today\'s\nRecipes',
             ),
             Tab(
               icon: Icon(Icons.list),
-              text: 'Recipes',
+              text: '    Get\nRecipes',
             ),
             Tab(
               icon: Icon(Icons.calendar_today),
@@ -105,3 +131,14 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
     );
   }
 }
+
+class Choice {
+  const Choice({this.title, this.icon});
+
+  final String title;
+  final IconData icon;
+}
+const List<Choice> choices = const <Choice>[
+  const Choice(title: 'My Profile', icon: Icons.person),
+
+];
