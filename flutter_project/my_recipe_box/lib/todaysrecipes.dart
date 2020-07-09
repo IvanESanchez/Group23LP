@@ -6,15 +6,16 @@ class TodaysRecipes extends StatelessWidget {
     return Container(
         color: Colors.green[50], // change this color to change the background color
         child: Scaffold(
-          backgroundColor: Colors.white,
+          //backgroundColor: Colors.white,
           body: Container(
+            color: Colors.green[50], // change this color to change the background color
             child: Center(
               child: Column(
                 // center the children
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
-                    Icons.person,
+                    Icons.today,
                     size: 160.0,
                     color: Colors.grey,
                   ),
