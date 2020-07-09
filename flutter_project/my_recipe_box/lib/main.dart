@@ -47,14 +47,14 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
   }
 
 
-  Choice _selectedChoice = choices[0]; // The app's "state".
+  //Choice _selectedChoice = choices[0]; // The app's "state".
 
-  void _select(Choice choice) {
+  //void _select(Choice choice) {
   // Causes the app to rebuild with the new _selectedChoice.
-  setState(() {
-  _selectedChoice = choice;
-  });
-  }
+  //setState(() {
+ //   _selectedChoice = choice;
+  //});
+  //}
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -77,8 +77,13 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
           // action button
           IconButton(
             icon: Icon(choices[0].icon),
+            tooltip: "My Profile",
             onPressed: () {
-              _select(choices[0]);
+              //_select(choices[0]);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyProfile()),
+              );
             },
           ),
           // action button
@@ -141,5 +146,6 @@ class Choice {
 }
 const List<Choice> choices = const <Choice>[
   const Choice(title: 'My Profile', icon: Icons.person),
+
 
 ];
