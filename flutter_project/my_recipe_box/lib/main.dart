@@ -58,7 +58,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EEEEEEEE, MMMM dd').format(now); // NOTE: the month text will be truncated to 5 characters long.
+    String formattedDate = DateFormat("EEEEEEEE, MMMM dd").format(now); // NOTE: the month text will be truncated to 5 characters long.
     //String userName = '<Name of User>'; // TODO: get the actual user's name
     //String spacing = "                 ";
     return Scaffold(
@@ -108,23 +108,23 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
             Tab(
               // set icon to the tab
               icon: Icon(Icons.local_grocery_store),
-              text: 'Grocery\n    List',
+              text: "Grocery\n    List",
             ),
             Tab(
               icon: Icon(Icons.today),
-              text: 'Today\'s\nRecipes',
+              text: "Today's\nRecipes",
             ),
             Tab(
               icon: Icon(Icons.list),
-              text: '    Get\nRecipes',
+              text: "    Get\nRecipes",
             ),
             Tab(
               icon: Icon(Icons.calendar_today),
-              text: 'Calendar',
+              text: "Calendar",
             ),
             Tab(
               icon: Icon(Icons.loop),
-              text: 'Converter',
+              text: "Converter",
             ),
           ],
           // setup the controller
@@ -145,7 +145,7 @@ class Choice {
   final IconData icon;
 }
 const List<Choice> choices = const <Choice>[
-  const Choice(title: 'My Profile', icon: Icons.person),
+  const Choice(title: "My Profile", icon: Icons.person),
 
 
 ];
