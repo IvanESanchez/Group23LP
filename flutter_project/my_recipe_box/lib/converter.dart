@@ -15,6 +15,7 @@ class _ConverterState extends State<Converter> {
     //List<String> units = <String>["Unit Placeholder 1", "Unit Placeholder 2", "Unit Placeholder 3"]; // TODO: add more
     String dropdownValue = "Teaspoons";
     return Container(
+      color: Colors.green[50], // change this color to change the background color
 
 
       child: Column(
