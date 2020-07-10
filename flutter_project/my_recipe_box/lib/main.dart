@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe_box/grocerylist.dart';
 import 'package:my_recipe_box/todaysrecipes.dart';
 import 'package:my_recipe_box/myprofile.dart';
-import 'package:my_recipe_box/recipes.dart';
+import 'package:my_recipe_box/getrecipes.dart';
 import 'package:my_recipe_box/calendar.dart';
 import 'package:my_recipe_box/converter.dart';
 
@@ -94,7 +94,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
       // Set the TabBar view as the body of the Scaffold
       body: TabBarView( // NOTE: TabBarView is the footer of the app
         // Add tabs as widgets
-        children: <Widget>[GroceryList(), TodaysRecipes(), Recipes(), Calendar(), Converter()],
+        children: <Widget>[GroceryList(), TodaysRecipes(), GetRecipes(), Calendar(), Converter()],
         // set the controller
         controller: controller,
       ),
