@@ -21,7 +21,13 @@ const UserSchema = new mongoose.Schema({
     isVerified: {
         type: Boolean,
         default: false
-    }
+    },
+    calendars: [{
+        calendarId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Calendar'
+        }
+      }]
 });
 
 module.exports = mongoose.model('user', UserSchema);
