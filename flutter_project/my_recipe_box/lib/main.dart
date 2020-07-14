@@ -132,11 +132,11 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
             ),
             Tab(
               icon: Icon(Icons.calendar_today),
-              text: "Calendar\n",
+              text: "  Weekly\nCalendar",
             ),
             Tab(
               icon: Icon(Icons.loop),
-              text: "Converter\n",
+              text: "     Unit\nConverter",
             ),
           ],
         ),

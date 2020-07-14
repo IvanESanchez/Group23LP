@@ -90,7 +90,7 @@ class _ConverterState extends State<Converter> {
     }
 
 
-    String result = numericResult.toStringAsFixed(2) + " " + secondDropdownValue;
+    String result = numericResult.toStringAsFixed(2) + " " + secondDropdownValue.toLowerCase();
     return result;
   }
 
