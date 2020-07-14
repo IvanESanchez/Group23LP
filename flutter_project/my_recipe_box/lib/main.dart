@@ -58,7 +58,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat("EEEEEEEE, MMMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
+    String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
     //String userName = '<Name of User>'; // TODO: get the actual user's name
     //String spacing = "                 ";
     return Scaffold(
