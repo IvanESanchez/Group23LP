@@ -126,7 +126,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
             ),
             Tab(
               icon: Icon(Icons.list),
-              text: "    Get\nRecipes",
+              text: "Recipes\n",
             ),
             Tab(
               icon: Icon(Icons.calendar_today),
