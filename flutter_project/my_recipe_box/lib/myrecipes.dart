@@ -13,6 +13,7 @@ class MyRecipes extends StatelessWidget {
         //backgroundColor: Colors.white,
 
         child: new Scaffold (
+          backgroundColor: Colors.green[50],
           body: ListView.separated(
             padding: const EdgeInsets.all(10),
             itemCount: recipes.length,
