@@ -36,38 +36,56 @@ class _ConverterState extends State<Converter> {
 
             ListTile( // NOTE: DROPDOWN 1
                 title: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget> [
 
-                    DropdownButton(
-
-                      value: dropdownValue,
-                      //icon: Icon(Icons.arrow_downward), NOTE: could change the icon in the dropdown here
-                      iconSize: 24,
-                      elevation: 16,
-
-                      style: TextStyle(color: Colors.black), // NOTE: This is the color of the dropdown menu text
-                      underline: Container(
-                        height: 2,
-                        color: Colors.green, // NOTE: this is the color of the underline of the dropdown
+                      Padding(
+                        padding: EdgeInsets.all(30.0),
+                        child: Container(
+                          width: 100.0,
+                          child: TextFormField( // NOTE: text entry for amount
+                              decoration: InputDecoration(
+                                  labelText: 'Amount:'
+                              ),
+                              keyboardType: TextInputType.numberWithOptions(decimal: true)
+                          ),
+                        ),
                       ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          dropdownValue = newValue;
-                        });
-                      },
-                      items: <String>['Teaspoons', 'Tablespoons', 'Cups', 'Pints'].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
 
-                ]
-            )
+
+
+
+                      DropdownButton(
+
+                        value: dropdownValue,
+                        //icon: Icon(Icons.arrow_downward), NOTE: could change the icon in the dropdown here
+                        iconSize: 24,
+                        elevation: 16,
+
+                        style: TextStyle(color: Colors.black), // NOTE: This is the color of the dropdown menu text
+                        underline: Container(
+                          height: 2,
+                          color: Colors.green, // NOTE: this is the color of the underline of the dropdown
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            dropdownValue = newValue;
+                          });
+                        },
+                        items: <String>['Ounces', 'Teaspoons', 'Tablespoons', 'Cups', 'Pints', 'Quarts', 'Gallons'].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+
+                    ]
+                )
 
             ),
+
+
 
           ListTile( // NOTE: DOWN ARROW
             title: Icon(
@@ -80,6 +98,11 @@ class _ConverterState extends State<Converter> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget> [
 
+
+
+
+
+
                     DropdownButton(
 
                       value: dropdownValue,
@@ -97,13 +120,38 @@ class _ConverterState extends State<Converter> {
                           dropdownValue = newValue;
                         });
                       },
-                      items: <String>['Teaspoons', 'Tablespoons', 'Cups', 'Pints'].map<DropdownMenuItem<String>>((String value) {
+                      items: <String>['Ounces', 'Teaspoons', 'Tablespoons', 'Cups', 'Pints', 'Quarts', 'Gallons'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
                     ),
+
+
+                    Padding(
+                      padding: EdgeInsets.all(30.0),
+                      child: RaisedButton(
+                          onPressed: () {
+                            // TODO: do the conversion
+                          },
+                          textColor: Colors.white,
+                          color: Colors.red[400],
+                          padding: const EdgeInsets.all(0.0),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            child:
+                            const Text('Convert', style: TextStyle(fontSize: 16)),
+                          ),
+                        ),
+                    ),
+
+
+                    // TODO: result button here
+
+
 
                   ]
               )
