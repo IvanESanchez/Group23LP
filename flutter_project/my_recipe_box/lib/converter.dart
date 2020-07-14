@@ -30,8 +30,11 @@ class _ConverterState extends State<Converter> {
               //leading: Icon(Icons.local_dining), // NOTE: could add an icon here
               //title: Text("\n${units[index]}"),
               subtitle: Text(
-                  "\nPlease enter the amount you would like to convert:",
-                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20)),
+                  "\nEnter the amount you would like to convert, select your units, then hit 'Convert'",
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+                  textAlign: TextAlign.center
+              ),
+
             ),
 
             ListTile( // NOTE: DROPDOWN 1
@@ -42,10 +45,13 @@ class _ConverterState extends State<Converter> {
                       Padding(
                         padding: EdgeInsets.all(30.0),
                         child: Container(
+
                           width: 100.0,
                           child: TextFormField( // NOTE: text entry for amount
+
                               decoration: InputDecoration(
-                                  labelText: 'Amount:'
+                                border: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.teal)),
+                                labelText: 'Amount:'
                               ),
                               keyboardType: TextInputType.numberWithOptions(decimal: true)
                           ),
@@ -87,16 +93,18 @@ class _ConverterState extends State<Converter> {
 
 
 
-          ListTile( // NOTE: DOWN ARROW
-            title: Icon(
-                Icons.arrow_downward,
-                color: Colors.black,
+
+
+            ListTile( // NOTE: DOWN ARROW
+              title: Icon(
+                  Icons.arrow_downward,
+                  color: Colors.black,
+              ),
             ),
-          ),
-          ListTile( // NOTE: DROPDOWN 2
-              title: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
+            ListTile( // NOTE: DROPDOWN 2
+                title: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget> [
 
 
 
@@ -150,6 +158,13 @@ class _ConverterState extends State<Converter> {
 
 
                     // TODO: result button here
+                    RichText(
+                      text: TextSpan(text: '', style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(text: '...', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    )
 
 
 
