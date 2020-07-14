@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe_box/getrecipes.dart';
 
 class MyRecipes extends StatelessWidget {
 
@@ -63,6 +64,10 @@ class MyRecipes extends StatelessWidget {
                 onPressed: ()
                 {
                   // TODO: open the getrecipes.dart
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GetRecipes()),
+                  );
                 },
                 label: Text('New Recipe'),
             )
