@@ -60,7 +60,7 @@ class MyRecipes extends StatelessWidget {
                 floatingActionButton: FloatingActionButton.extended(
                 elevation: 0.0,
                 icon: const Icon(Icons.add), // NOTE: button icon
-                backgroundColor: new Color(0xFFE57373), // NOTE: button color
+                backgroundColor: Colors.red[400], // NOTE: button color
                 onPressed: ()
                 {
                   // TODO: open the getrecipes.dart
