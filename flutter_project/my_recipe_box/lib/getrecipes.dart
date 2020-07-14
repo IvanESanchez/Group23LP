@@ -33,7 +33,8 @@ Widget build(BuildContext context) {
                   ButtonBar(
                     children: <Widget>[
                       FlatButton(
-                        child: const Text("GET RECIPE"),
+                        child: const Text("Get Recipe"),
+                        color: Colors.red[400],
                         onPressed: () {
                           // NOTE: this is what happens when the "Get Recipe" button is pressed
                         },
