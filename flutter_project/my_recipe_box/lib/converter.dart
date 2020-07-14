@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 //import 'package:unit_converter/unit_converter.dart'; // for usage, see: https://pub.dev/packages/unit_converter
 
@@ -10,10 +11,102 @@ class Converter extends StatefulWidget {
 }
 
 class _ConverterState extends State<Converter> {
+  var firstDropdownValue = "Ounces";
+  var secondDropdownValue = "Tablespoons";
+  var amountEntry = "";
+  var resultValue = "...";
+  String unitConversion(String amountEntry, String firstUnit, String secondUnit) {
+
+
+    // TODO: check that amountEntry is a valid input (only numeric or period). if not, return "INVALID AMOUNT VALUE"
+    // TODO: support integer inputs.
+    // TODO: any other units to support?
+    // TODO: truncate output to two decimal places
+    // TODO: say the unit type in the output
+    // TODO: fix the button situation (hitting convert isn't what makes it work)
+
+
+    double numericAmount = double.parse(amountEntry);
+
+    double middle;
+
+    // converts to ounces
+    switch(firstUnit) {
+      case "Ounces":
+        middle = numericAmount;
+        break;
+
+      case "Teaspoons":
+        middle = numericAmount * 0.166667;
+        break;
+
+      case "Tablespoons":
+        middle = numericAmount * 0.5;
+        break;
+
+      case "Cups":
+        middle = numericAmount * 8;
+        break;
+
+      case "Pints":
+        middle = numericAmount * 16;
+        break;
+
+      case "Quarts":
+        middle = numericAmount * 32;
+        break;
+
+      case "Gallons":
+        middle = numericAmount * 128;
+        break;
+    }
+
+    double numericResult;
+
+    switch(secondUnit) {
+      case "Ounces":
+        numericResult = middle;
+        break;
+
+      case "Teaspoons":
+        numericResult = middle * 6;
+        break;
+
+      case "Tablespoons":
+        numericResult = middle * 2;
+        break;
+
+      case "Cups":
+        numericResult = middle * 0.125;
+        break;
+
+      case "Pints":
+        numericResult = middle * 0.0625;
+        break;
+
+      case "Quarts":
+        numericResult = middle * 0.03125;
+        break;
+
+      case "Gallons":
+        numericResult = middle * 0.0078125;
+        break;
+    }
+
+
+    String result = numericResult.toString(); // TODO: cast from numericResult
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
+
+
     //List<String> units = <String>["Unit Placeholder 1", "Unit Placeholder 2", "Unit Placeholder 3"]; // TODO: add more
-    String dropdownValue = "Teaspoons";
+
+
     return Container(
       color: Colors.green[50], // change this color to change the background color
 
@@ -23,7 +116,7 @@ class _ConverterState extends State<Converter> {
 
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-
+/*
             ListTile(
               // contentPadding: , // TODO: add padding
 
@@ -35,7 +128,7 @@ class _ConverterState extends State<Converter> {
                   textAlign: TextAlign.center
               ),
 
-            ),
+            ),*/
 
             ListTile( // NOTE: DROPDOWN 1
                 title: Column(
@@ -50,11 +143,17 @@ class _ConverterState extends State<Converter> {
                           child: TextFormField( // NOTE: text entry for amount
 
                               decoration: InputDecoration(
-                                border: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.teal)),
+                                border: new OutlineInputBorder(borderSide: new BorderSide()),
                                 labelText: 'Amount:'
                               ),
-                              keyboardType: TextInputType.numberWithOptions(decimal: true)
+                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  amountEntry = newValue;
+                                });
+                              },
                           ),
+
                         ),
                       ),
 
@@ -63,7 +162,7 @@ class _ConverterState extends State<Converter> {
 
                       DropdownButton(
 
-                        value: dropdownValue,
+                        value: firstDropdownValue,
                         //icon: Icon(Icons.arrow_downward), NOTE: could change the icon in the dropdown here
                         iconSize: 24,
                         elevation: 16,
@@ -75,7 +174,7 @@ class _ConverterState extends State<Converter> {
                         ),
                         onChanged: (String newValue) {
                           setState(() {
-                            dropdownValue = newValue;
+                            firstDropdownValue = newValue;
                           });
                         },
                         items: <String>['Ounces', 'Teaspoons', 'Tablespoons', 'Cups', 'Pints', 'Quarts', 'Gallons'].map<DropdownMenuItem<String>>((String value) {
@@ -105,15 +204,9 @@ class _ConverterState extends State<Converter> {
                 title: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget> [
-
-
-
-
-
-
                     DropdownButton(
 
-                      value: dropdownValue,
+                      value: secondDropdownValue,
                       //icon: Icon(Icons.arrow_downward), NOTE: could change the icon in the dropdown here
                       iconSize: 24,
                       elevation: 16,
@@ -125,7 +218,7 @@ class _ConverterState extends State<Converter> {
                       ),
                       onChanged: (String newValue) {
                         setState(() {
-                          dropdownValue = newValue;
+                          secondDropdownValue = newValue;
                         });
                       },
                       items: <String>['Ounces', 'Teaspoons', 'Tablespoons', 'Cups', 'Pints', 'Quarts', 'Gallons'].map<DropdownMenuItem<String>>((String value) {
@@ -141,7 +234,7 @@ class _ConverterState extends State<Converter> {
                       padding: EdgeInsets.all(30.0),
                       child: RaisedButton(
                           onPressed: () {
-                            // TODO: do the conversion
+                            resultValue = unitConversion(amountEntry, firstDropdownValue, secondDropdownValue);
                           },
                           textColor: Colors.white,
                           color: Colors.red[400],
@@ -157,11 +250,10 @@ class _ConverterState extends State<Converter> {
                     ),
 
 
-                    // TODO: result button here
-                    RichText(
+                    RichText( // NOTE: result  here
                       text: TextSpan(text: '', style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
-                          TextSpan(text: '...', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          TextSpan(text: resultValue, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     )
