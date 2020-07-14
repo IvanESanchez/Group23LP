@@ -43,6 +43,12 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  calendars: [{
+        calendarId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Calendar'
+        }
+      }]
 });
 
 // Document middleware
