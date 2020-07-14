@@ -1,6 +1,6 @@
 # MyRecipeBox 1.0
 
-> Recipe app AP
+> Recipe app API
 
 # Quick Start
 
