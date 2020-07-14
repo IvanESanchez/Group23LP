@@ -36,7 +36,8 @@ class MyRecipes extends StatelessWidget {
                       ButtonBar(
                         children: <Widget>[
                           FlatButton(
-                            child: const Text("VIEW RECIPE"),
+                            child: const Text("View Recipe"),
+                            color: Colors.red[400],
                             onPressed: () {
                               // NOTE: this is what happens when the "Get Recipe" button is pressed
                             },
