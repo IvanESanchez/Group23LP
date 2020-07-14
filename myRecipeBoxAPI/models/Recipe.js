@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-//const Ingredient = require('./Ingredient');
-
 const RecipeSchema = new Schema({
   user: {
-    type: Schema.Types.ObjectId,
+    type: Schema.ObjectId,
+    ref: 'User',
+    required: [true, 'User is required'],
   },
   name: {
     type: String,
@@ -16,8 +16,12 @@ const RecipeSchema = new Schema({
     minlength: [1, 'Name must have more than 1 character'],
   },
   ingredients: {
-    //type: [Schema.Types.Ingredient],
-    type: [String],
+    type: [
+      {
+        type: Schema.ObjectId,
+        ref: 'Ingredient',
+      },
+    ],
     required: [true, 'Ingredients are required'],
   },
   directions: {
@@ -26,10 +30,6 @@ const RecipeSchema = new Schema({
   },
   courses: {
     type: [String],
-    enum: {
-      values: ['breakfast', 'lunch', 'dinner', 'brunch'],
-      message: 'Course is either: breakfast, lunch, brunch, or dinner',
-    },
   },
   categories: {
     type: [String],
@@ -57,6 +57,16 @@ const RecipeSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+//Query middleware
+RecipeSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'ingredients',
+    select: '-__v',
+  });
+
+  next();
 });
 
 const Recipe = mongoose.model('Recipe', RecipeSchema);

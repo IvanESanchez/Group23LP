@@ -1,12 +1,9 @@
-//TODO: Need to fix to fit to the new structure
-var express = require('express');
-const router = express.Router();
-
 var User = require('../models/User');
-var Calendar = require('../../models/Calendar');
-var Recipe = require('recipes');
+var Calendar = require('../models/Calendar');
 
-function makeNewCalendar(user, callback) {
+//*TODO Check if everything still works after refactoring
+
+exports.createCalendar = function makeNewCalendar(user, callback) {
   var userCalendar = {};
   Calendar.create(
     {
@@ -59,8 +56,4 @@ function makeNewCalendar(user, callback) {
       }
     }
   );
-}
-
-router.post('/add', async (req, res, next) => {});
-
-module.exports = { router, makeNewCalendar };
+};
