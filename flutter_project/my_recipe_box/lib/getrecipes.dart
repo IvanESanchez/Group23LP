@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe_box/createrecipe.dart';
 
 class GetRecipes extends StatelessWidget {
 
@@ -10,47 +11,62 @@ class GetRecipes extends StatelessWidget {
     return Container(
       color: Colors.green[50], // change this color to change the background color
       //backgroundColor: Colors.white,
+      child: new Scaffold (
+        backgroundColor: Colors.green[50],
+        body: ListView.separated(
+          padding: const EdgeInsets.only(top: 50, left: 10, right: 10),
+          itemCount: recipes.length,
+          separatorBuilder: (BuildContext context, int index) => const Divider(),
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
 
-          child: ListView.separated(
-            padding: const EdgeInsets.only(top: 50, left: 10, right: 10),
-            itemCount: recipes.length,
-            separatorBuilder: (BuildContext context, int index) => const Divider(),
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-
-                        leading: Icon(Icons.local_dining),
-                        title: Text("\n${recipes[index]}"),
-                        subtitle: Text("More information can go here, such as author name, or ingredients"),
-                      ),
-                      ButtonBar(
-                        children: <Widget>[
-                          FlatButton(
-                            child: const Text("Get Recipe"),
-                            color: Colors.red[400],
-                            onPressed: () {
-                              // NOTE: this is what happens when the "Get Recipe" button is pressed
-                            },
-                          ),
-                          /*FlatButton(
-                            child: const Text('another button could go here'),
-                            onPressed: () {/* ... */},
-                          ), */
-                        ],
-                      ),
-                    ],
-                  ),
+                      leading: Icon(Icons.local_dining),
+                      title: Text("\n${recipes[index]}"),
+                      subtitle: Text("More information can go here, such as author name, or ingredients"),
+                    ),
+                    ButtonBar(
+                      children: <Widget>[
+                        FlatButton(
+                          child: const Text("Get Recipe"),
+                          color: Colors.red[400],
+                          onPressed: () {
+                            // NOTE: this is what happens when the "Get Recipe" button is pressed
+                          },
+                        ),
+                        /*FlatButton(
+                          child: const Text('another button could go here'),
+                          onPressed: () {/* ... */},
+                        ), */
+                      ],
+                    ),
+                  ],
                 ),
+              ),
 
-              );
-            },
+            );
+          },
 
-          )
-
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          elevation: 0.0,
+          icon: const Icon(Icons.create), // NOTE: button icon
+          backgroundColor: Colors.red[400], // NOTE: button color
+          onPressed: ()
+          {
+            // TODO: open the getrecipes.dart
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreateRecipe()),
+            );
+          },
+          label: Text('Create'),
+        )
+      )
     );
   }
 }
