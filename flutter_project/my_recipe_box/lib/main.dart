@@ -18,6 +18,7 @@ void main() {
       title: "MyRecipeBox",
       theme: ThemeData(
         primarySwatch: Colors.green,
+        pageTransitionsTheme: PageTransitionsTheme(builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder(),}),
       ),
       // Home
       home: MyHome()));
