@@ -3,6 +3,7 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
 
 exports.createRecipe = catchAsync(async (req, res, next) => {
+  if (!req.body.user) req.body.user = req.user.id;
   const recipe = await Recipe.create(req.body);
   res.status(201).json({
     status: 'success',

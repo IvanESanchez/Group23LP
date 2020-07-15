@@ -1,22 +1,25 @@
-//TODO: Need to fix to fit to the new structure
 /*
 Author: Alex Morse
 */
 
-//External Packages
-var express = require('express');
-
 //Project packages
-const Ingredient = require('../../models/Ingredient');
+const Ingredient = require('../models/Ingredient');
 
-var router = express.Router();
+//*Optional => for error handling purposes and to get rid of all the repeated try-catch blocks
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 //Status code definitions
 const success = 200;
 const badRequest = 400;
 const serverError = 500;
 
-router.post('/add', async (req, res, next) => {
+//*TODO Check if everything still works after refactoring
+//*Ask them about ID since we are using protect middleware from authController.js
+
+exports.createIngredient = async (req, res, next) => {
+  //console.log(req.user.id);
+
   try {
     //Make sure body exists
     if (req.body == null) {
@@ -26,7 +29,7 @@ router.post('/add', async (req, res, next) => {
     }
 
     //collect information from body
-    var user = req.body.userid;
+	var user = req.user.id
     var ingredients = req.body.ingredients;
 
     //Make sure information exists
@@ -66,9 +69,9 @@ router.post('/add', async (req, res, next) => {
     console.log(err.message);
     res.status(serverError).json({});
   }
-});
+};
 
-router.post('/remove', async (req, res, next) => {
+exports.deleteIngredient = async (req, res, next) => {
   try {
     //Make sure body exists
     if (req.body == null) {
@@ -78,7 +81,7 @@ router.post('/remove', async (req, res, next) => {
     }
 
     //collect information from body
-    var user = req.body.userid;
+    var user = req.user.id;
     var ingredients = req.body.ingredients;
 
     //Make sure information exists
@@ -114,19 +117,12 @@ router.post('/remove', async (req, res, next) => {
     console.log(err.message);
     res.status(serverError).json({});
   }
-});
+};
 
-router.post('/get', async (req, res, next) => {
+exports.getAllIngredients = async (req, res, next) => {
   try {
-    //Make sure body exists
-    if (req.body == null) {
-      //Body was formatted incorrectly, return error badRequest
-      res.status(badRequest).json({});
-      return;
-    }
-
-    //collect information from body
-    var user = req.body.userid;
+    //collect information
+    var user = req.user.id;
 
     //Make sure information exists
     if (user == null) {
@@ -141,6 +137,4 @@ router.post('/get', async (req, res, next) => {
     console.log(err.message);
     res.status(serverError).json({});
   }
-});
-
-module.exports = router;
+};

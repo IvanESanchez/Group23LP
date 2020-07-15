@@ -3,16 +3,19 @@ const express = require('express');
 const recipeController = require('./../controllers/recipeController');
 const authController = require('./../controllers/authController');
 
+const ingredientRouter = require('./ingredientRoutes');
 const router = express.Router();
+
+router.use('/:recipeId/ingredients', ingredientRouter);
 
 router
   .route('/')
-  .get(authController.protect, recipeController.getAllRecipes)
+  .get(recipeController.getAllRecipes)
   .post(authController.protect, recipeController.createRecipe);
 
 router
   .route('/:id')
-  .get(authController.protect, recipeController.getRecipeById)
+  .get(recipeController.getRecipeById)
   .patch(authController.protect, recipeController.updateRecipeById)
   .delete(authController.protect, recipeController.deleteRecipeById);
 

@@ -3,8 +3,6 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
-//const Recipe = require('./Recipe');
-
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -35,20 +33,28 @@ const UserSchema = new mongoose.Schema({
       },
       message: 'Passwords do not match',
     },
+    select: false,
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  calendars: [{
-        calendarId: {
-          type: Schema.Types.ObjectId,
-          ref: 'Calendar'
-        }
-      }]
+  calendars: [
+    {
+      calendarId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Calendar',
+      },
+    },
+  ],
 });
 
 // Document middleware
@@ -70,7 +76,14 @@ UserSchema.pre('save', function (next) {
   next();
 });
 
-//*** Instance methods ***
+// Query middleware
+
+UserSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+// Instance methods
 
 //Check passwords
 UserSchema.methods.correctPassword = async function (

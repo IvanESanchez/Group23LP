@@ -7,8 +7,11 @@ const CalendarSchema = new Schema({
     required: true,
   },
   userid: {
+    // *TODO Ask the boys about doing this instead ****
+    // type: Schema.ObjectId,
+    // ref: 'User'
     type: String,
-    required: true,
+    required: [true, 'User is required'],
   },
   recipe: [RecipeSchema],
   mealType: {
