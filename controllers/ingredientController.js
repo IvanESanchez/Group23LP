@@ -18,6 +18,8 @@ const serverError = 500;
 //*Ask them about ID since we are using protect middleware from authController.js
 
 exports.createIngredient = async (req, res, next) => {
+  //console.log(req.user.id);
+
   try {
     //Make sure body exists
     if (req.body == null) {
@@ -27,7 +29,7 @@ exports.createIngredient = async (req, res, next) => {
     }
 
     //collect information from body
-    var user = req.body.userid;
+	var user = req.user.id
     var ingredients = req.body.ingredients;
 
     //Make sure information exists
@@ -79,7 +81,7 @@ exports.deleteIngredient = async (req, res, next) => {
     }
 
     //collect information from body
-    var user = req.body.userid;
+    var user = req.user.id;
     var ingredients = req.body.ingredients;
 
     //Make sure information exists
@@ -119,15 +121,8 @@ exports.deleteIngredient = async (req, res, next) => {
 
 exports.getAllIngredients = async (req, res, next) => {
   try {
-    //Make sure body exists
-    if (req.body == null) {
-      //Body was formatted incorrectly, return error badRequest
-      res.status(badRequest).json({});
-      return;
-    }
-
-    //collect information from body
-    var user = req.body.userid;
+    //collect information
+    var user = req.user.id;
 
     //Make sure information exists
     if (user == null) {

@@ -7,7 +7,7 @@ const IngredientSchema = new mongoose.Schema({
     // type: Schema.ObjectId,
     // ref: 'User'
     type: String,
-    required: [true, 'Userid is required'],
+    required: [true, 'User is required'],
   },
   name: {
     type: String,
