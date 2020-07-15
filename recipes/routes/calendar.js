@@ -4,7 +4,7 @@ const router = express.Router();
 
 var User = require('../models/User');
 var Calendar = require('../../models/Calendar');
-var Recipe = require('recipes');
+var Recipe = require('../models/Recipe');
 
 function makeNewCalendar(user, callback) {
   var userCalendar = {};
@@ -61,6 +61,46 @@ function makeNewCalendar(user, callback) {
   );
 }
 
-router.post('/add', async (req, res, next) => {});
+router.post('/add', function(req,res,next){
+  var userCalendar = {};
+  Calendar.create({
+      name: req.body.name,
+      userId: req.body.user.id,
+      mealType: [
+        { mealTypeId: 0, name: 'Breakfast' },
+        { mealTypeId: 1, name: 'Lunch' },
+        { mealTypeId: 2, name: 'Dinner' },
+        { mealTypeId: 3, name: 'Dessert' },
+        { mealTypeId: 4, name: 'Other' },
+      ],
+  }, function(err, calendar){
+      if (err){
+          console.log('Cal DB create error: ', err);
+      }
+      userCalendar = calendar;
+      console.log("makeNewCalendar:",calendar);
+      User.findOne({_id: req.body.user.id},function(err,user){
+          if(user.calendars) {
+              User.update({_id: req.body.user.id},{$push: {
+                  calendars: {calendarId: userCalendar._id}
+              }}, function(err,userCalendar){
+                  if(err){
+                      console.log(err)
+                  }
+              });
+          } else {
+              console.log("did this cal add...from set");
+              User.update({_id: req.body.user.id},{$addToSet: {
+                  calendars: {calendarId: userCalendar._id}
+              }}, function(err,userCalendar){
+                  if(err){
+                      console.log(err)
+                  }
+              });
+          }
+      });
+  });
+});
+
 
 module.exports = { router, makeNewCalendar };

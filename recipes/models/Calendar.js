@@ -2,11 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CalendarSchema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   userid: {
     type: String,
     required: true,
   },
+  recipe: [RecipeSchema],
   mealType: {
     type: String,
     mealTypeId: Number,
