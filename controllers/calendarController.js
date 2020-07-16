@@ -4,6 +4,9 @@ var Recipe = require('../models/Recipe');
 
 //*TODO Check if everything still works after refactoring
 
+const success = 200;
+const badRequest = 400;
+
 exports.createCalendar = function makeNewCalendar(user, callback) {
   var userCalendar = {};
   Calendar.create(
@@ -62,6 +65,12 @@ exports.createCalendar = function makeNewCalendar(user, callback) {
 exports.addRecipe = async(req,res,next) => {
 
   Calendar.findOne({_id: req.body.calendar._id},function(err,calendar){
+
+    if(req.body == null){
+      res.status(badRequest).json({});
+      return;
+    }
+
     let name = req.body.name;
 
     if(calendar.recipe){
@@ -75,6 +84,7 @@ exports.addRecipe = async(req,res,next) => {
           if(err){
             console.log(err);
           }
+          res.status(success).json({});
           res.json({recipe:{name: name}});
         }
       );
@@ -90,6 +100,7 @@ exports.addRecipe = async(req,res,next) => {
           if(err){
             console.log(err);
           }
+          res.status(success).json({});
           res.json({recipe:newEvent});
         }
       );
@@ -99,6 +110,11 @@ exports.addRecipe = async(req,res,next) => {
 };
 
 exports.deleteRecipe = async(req,res,next) => {
+
+  if(req.body == null){
+    res.status(badRequest).json({});
+    return;
+  }
   
   let calId = req.body.calendarId;
   let recipeId = req.body.recipeId;
@@ -116,6 +132,7 @@ exports.deleteRecipe = async(req,res,next) => {
         if(err){
           console.log(err);
         }
+        res.status(success).json({});
         res.json({deletedEvent: deletedRecipe});
       });
     }
