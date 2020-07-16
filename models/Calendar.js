@@ -13,7 +13,8 @@ const CalendarSchema = new Schema({
     type: String,
     required: [true, 'User is required'],
   },
-  recipe: [RecipeSchema],
+  //Comented out because I needed to work on something else - this is a bug tho
+  //recipe: [RecipeSchema],
   mealType: {
     type: String,
     mealTypeId: Number,
