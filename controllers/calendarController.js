@@ -1,5 +1,6 @@
 var User = require('../models/User');
 var Calendar = require('../models/Calendar');
+var Recipe = require('../models/Recipe');
 
 //*TODO Check if everything still works after refactoring
 
@@ -56,4 +57,67 @@ exports.createCalendar = function makeNewCalendar(user, callback) {
       }
     }
   );
+};
+
+exports.addRecipe = async(req,res,next) => {
+
+  Calendar.findOne({_id: req.body.calendar._id},function(err,calendar){
+    let name = req.body.name;
+
+    if(calendar.recipe){
+      Calendar.update({_id: calendar._id},
+        { $push: {
+          recipe: {
+            name: name,
+          }
+        }
+        }, function(err,newEvent){
+          if(err){
+            console.log(err);
+          }
+          res.json({recipe:{name: name}});
+        }
+      );
+    } 
+    else{
+      Calendar.update({_id: calendar._id},
+        { $addToSet: {
+          recipe: {
+            name: name,
+          }
+        }
+        }, function(err,newEvent){
+          if(err){
+            console.log(err);
+          }
+          res.json({recipe:newEvent});
+        }
+      );
+      
+    }
+  })
+};
+
+exports.deleteRecipe = async(req,res,next) => {
+  
+  let calId = req.body.calendarId;
+  let recipeId = req.body.recipeId;
+
+  Calendar.findOne({_id: req.body.calendar._id},function(err,calendar){
+    if(calendar){
+
+      Calendar.update({"_id":callId}, {
+        "$pull": {
+          recipe:{
+            "_id": recipeId
+          }
+        }
+      }, function(err,deletedRecipe){
+        if(err){
+          console.log(err);
+        }
+        res.json({deletedEvent: deletedRecipe});
+      });
+    }
+  })
 };
