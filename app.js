@@ -39,9 +39,6 @@ app.use(mongoSanitize());
 // Cleans input from malicious html code. could have some evil JavaScript code for instance
 app.use(xss());
 
-//Serving static files
-app.use(express.static(`${__dirname}/public`));
-
 //API limiting
 const limiter = rateLimit({
   max: 150,
@@ -56,6 +53,9 @@ app.use('/api/recipes', recipeRouter);
 app.use('/api/users', userRouter);
 app.use('/api/shopping', ingredientRouter);
 app.use('/api/calendar', calendarRouter);
+
+//Website
+app.use(express.static(__dirname + '/web'));
 
 // Non-existing routes
 app.all('*', (req, res, next) => {
