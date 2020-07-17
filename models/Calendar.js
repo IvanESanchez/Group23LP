@@ -15,6 +15,11 @@ const CalendarSchema = new Schema({
   },
   //Comented out because I needed to work on something else - this is a bug tho
   //recipe: [RecipeSchema],
+  recipe: {
+    type: Schema.ObjectId,
+    ref: 'Recipe',
+    day: String,
+  },
   mealType: {
     type: String,
     mealTypeId: Number,
