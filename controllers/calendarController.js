@@ -6,8 +6,9 @@ var Recipe = require('../models/Recipe');
 
 const success = 200;
 const badRequest = 400;
+const serverError = 500;
 
-exports.createCalendar = function makeNewCalendar(user, callback) {
+exports.createCalendar = async(req,res,next) => {
   var userCalendar = {};
   Calendar.create(
     {
@@ -23,7 +24,8 @@ exports.createCalendar = function makeNewCalendar(user, callback) {
     function (err, calendar) {
       if (err) {
         console.log('Cal DB create error: ', err);
-        return callback(err, null, null);
+        res.status(serverError).json({});
+        return;
       }
 
       userCalendar = calendar;
@@ -39,7 +41,8 @@ exports.createCalendar = function makeNewCalendar(user, callback) {
             if (err) {
               console.log(err);
             }
-            return callback(null, user, userCalendar);
+            res.status(success).json({});
+            res.json({recipe:{calendars: userCalendar._id}});
           }
         );
       } else {
@@ -54,7 +57,8 @@ exports.createCalendar = function makeNewCalendar(user, callback) {
             if (err) {
               console.log(err);
             }
-            return callback(null, user, userCalendar);
+            res.status(success).json({});
+            res.json({recipe:{calendars: userCalendar._id}});
           }
         );
       }
@@ -72,12 +76,14 @@ exports.addRecipe = async(req,res,next) => {
     }
 
     let name = req.body.name;
+    let date = req.body.day;
 
     if(calendar.recipe){
       Calendar.update({_id: calendar._id},
         { $push: {
           recipe: {
             name: name,
+            day: date,
           }
         }
         }, function(err,newEvent){
@@ -85,7 +91,7 @@ exports.addRecipe = async(req,res,next) => {
             console.log(err);
           }
           res.status(success).json({});
-          res.json({recipe:{name: name}});
+          res.json({recipe:{name: name, day: date}});
         }
       );
     } 
@@ -94,6 +100,7 @@ exports.addRecipe = async(req,res,next) => {
         { $addToSet: {
           recipe: {
             name: name,
+            day: date,
           }
         }
         }, function(err,newEvent){
