@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(Register());
 
-class MyApp extends StatelessWidget {
+class Registration extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

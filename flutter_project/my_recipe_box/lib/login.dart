@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe_box/main.dart';
+import 'package:my_recipe_box/registration.dart';
 
 //void main() => runApp(Login());
 
@@ -49,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     final emailField = TextField(
       obscureText: false,
       style: style,
@@ -71,13 +73,19 @@ class _MyHomePageState extends State<MyHomePage> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
-    final forgotPassword = Text(
-      'Forgot password? Click here.',
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      style: style.copyWith(
-        decoration: TextDecoration.underline,
-      ),
+
+    final forgotPassword = FlatButton(
+        onPressed: () {
+          /*...*/
+        },
+        child: Text(
+          'Forgot password? Click here.',
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: style.copyWith(
+            decoration: TextDecoration.underline,
+          ),
+        )
     );
     final loginButon = Material(
       elevation: 5.0,
@@ -98,13 +106,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.white, fontWeight: FontWeight.w800)),
       ),
     );
-    final register = Text(
-      'Click here to register.',
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      style: style.copyWith(
-        decoration: TextDecoration.underline,
-      ),
+    final register = FlatButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Registration()),
+        );
+      },
+      child: Text(
+          'Click here to register.',
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: style.copyWith(
+            decoration: TextDecoration.underline,
+          ),
+        )
     );
 
     return Scaffold(
