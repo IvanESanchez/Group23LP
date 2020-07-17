@@ -7,6 +7,7 @@ import 'package:my_recipe_box/myrecipes.dart';
 import 'package:my_recipe_box/createrecipe.dart';
 import 'package:my_recipe_box/calendar.dart';
 import 'package:my_recipe_box/converter.dart';
+import 'package:my_recipe_box/login.dart';
 
 import 'package:intl/intl.dart'; // necessary for getting the current date for the header bar
 
@@ -21,7 +22,8 @@ void main() {
         pageTransitionsTheme: PageTransitionsTheme(builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder(),}),
       ),
       // Home
-      home: MyHome()));
+      home: //MyHome()));
+  Login()));
 }
 
 class MyHome extends StatefulWidget {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe_box/main.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(Login());
 
-class MyApp extends StatelessWidget {
+class Login extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,12 @@ class _MyHomePageState extends State<MyHomePage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyHome()),
+          );
+        },
         child: Text("Login",
             textAlign: TextAlign.center,
             style: style.copyWith(
@@ -102,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Center(
         child: Container(
           color: Colors.green[50],
