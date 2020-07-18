@@ -96,9 +96,11 @@ class _CreateRecipe extends State<CreateRecipe> {
 
     return Scaffold(
       body: Container(
+
         color: Colors.green[50], // change this color to change the background color
         //backgroundColor: Colors.white,
         child: Scaffold(
+
         backgroundColor: Colors.green[50],
         // Appbar
         appBar: AppBar( // NOTE: AppBar is the header of the app
@@ -114,6 +116,7 @@ class _CreateRecipe extends State<CreateRecipe> {
         // Set the TabBar view as the body of the Scaffold
 
         body: Column(
+
 
 
         mainAxisSize: MainAxisSize.min,
@@ -205,9 +208,9 @@ class _CreateRecipe extends State<CreateRecipe> {
 
                     // TODO: add the actual recipe
                   },
-                  label: Text("Add Ingredient"),
-                  icon: Icon(Icons.add),
-                  color: Colors.greenAccent,
+                  label: Text("Add Ingredient", style: TextStyle(color: Colors.white)),
+                  icon: Icon(Icons.add, color: Colors.white),
+                  color: Colors.green,
                 )
             )
           ),
@@ -249,7 +252,7 @@ class _CreateRecipe extends State<CreateRecipe> {
 
                     },
                     label: Text("Clear Ingredients", style: TextStyle(color: Colors.white)),
-                    icon: Icon(Icons.remove),
+                    icon: Icon(Icons.remove, color: Colors.white),
                     color: Colors.red[400],
 
                   )
@@ -273,7 +276,7 @@ class _CreateRecipe extends State<CreateRecipe> {
               // TODO: add the recipe to the user's list, as well as everyones' "get recipes"
             },
             child: Icon(Icons.check),
-            backgroundColor: Colors.greenAccent,
+            backgroundColor: Colors.green,
 
           ),
         ),
@@ -384,10 +387,10 @@ class _CreateRecipe extends State<CreateRecipe> {
                   child:
                   RaisedButton.icon(
                           label: Text('Add', style: TextStyle(
-                              color: Colors.black
+                              color: Colors.white
                           )),
-                          color: Colors.greenAccent,
-                          icon: const Icon(Icons.add), // NOTE: button icon
+                          color: Colors.green,
+                          icon: const Icon(Icons.add, color: Colors.white), // NOTE: button icon
                           onPressed:() {
                             _addIngredient(currentIngredient);
                             //print("ingredient name is ");
