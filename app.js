@@ -81,8 +81,8 @@ app.use((req, res, next) => {
 // Define Routes
 app.use('/api/recipes', recipeRouter);
 app.use('/api/users', userRouter);
-app.use('/api/ingredients', ingredientRouter);
-//app.use('/api/shopping', ingredientRouter);
+//app.use('/api/ingredients', ingredientRouter);
+app.use('/api/shopping', ingredientRouter);
 app.use('/api/calendar', calendarRouter);
 
 // Non-existing routes
