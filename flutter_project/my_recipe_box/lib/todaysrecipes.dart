@@ -60,20 +60,7 @@ class TodaysRecipes extends StatelessWidget {
               },
 
             ),
-            floatingActionButton: FloatingActionButton.extended(
-              elevation: 0.0,
-              icon: const Icon(Icons.add), // NOTE: button icon
-              backgroundColor: Colors.red[400], // NOTE: button color
-              onPressed: ()
-              {
-                // TODO: open the getrecipes.dart
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GetRecipes()),
-                );
-              },
-              label: Text('New Recipe'),
-            )
+
         )
 
 
