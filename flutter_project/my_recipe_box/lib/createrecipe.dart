@@ -296,6 +296,7 @@ class _CreateRecipe extends State<CreateRecipe> {
                   appBar: new AppBar(
                       title: new Text('Add an Ingredient')
                   ),
+                  backgroundColor: Colors.green[50],  // Set the background color of the App Bar
                   body: Form(
                     key: _formKey,
                     child: Column(
