@@ -8,7 +8,7 @@ const success = 200;
 const badRequest = 400;
 const serverError = 500;
 
-exports.createCalendar = async(req,res,next) => {
+exports.createCalendar = async (req, res, next) => {
   var userCalendar = {};
   Calendar.create(
     {
@@ -42,7 +42,7 @@ exports.createCalendar = async(req,res,next) => {
               console.log(err);
             }
             res.status(success).json({});
-            res.json({recipe:{calendars: userCalendar._id}});
+            res.json({ recipe: { calendars: userCalendar._id } });
           }
         );
       } else {
@@ -58,7 +58,7 @@ exports.createCalendar = async(req,res,next) => {
               console.log(err);
             }
             res.status(success).json({});
-            res.json({recipe:{calendars: userCalendar._id}});
+            res.json({ recipe: { calendars: userCalendar._id } });
           }
         );
       }
@@ -66,11 +66,9 @@ exports.createCalendar = async(req,res,next) => {
   );
 };
 
-exports.addRecipe = async(req,res,next) => {
-
-  Calendar.findOne({_id: req.body.calendar._id},function(err,calendar){
-
-    if(req.body == null){
+exports.addRecipeToCalendar = async (req, res, next) => {
+  Calendar.findOne({ _id: req.body.calendar._id }, function (err, calendar) {
+    if (req.body == null) {
       res.status(badRequest).json({});
       return;
     }
@@ -78,70 +76,76 @@ exports.addRecipe = async(req,res,next) => {
     let name = req.body.name;
     let date = req.body.day;
 
-    if(calendar.recipe){
-      Calendar.update({_id: calendar._id},
-        { $push: {
-          recipe: {
-            name: name,
-            day: date,
-          }
-        }
-        }, function(err,newEvent){
-          if(err){
+    if (calendar.recipe) {
+      Calendar.update(
+        { _id: calendar._id },
+        {
+          $push: {
+            recipe: {
+              name: name,
+              day: date,
+            },
+          },
+        },
+        function (err, newEvent) {
+          if (err) {
             console.log(err);
           }
           res.status(success).json({});
-          res.json({recipe:{name: name, day: date}});
+          res.json({ recipe: { name: name, day: date } });
         }
       );
-    } 
-    else{
-      Calendar.update({_id: calendar._id},
-        { $addToSet: {
-          recipe: {
-            name: name,
-            day: date,
-          }
-        }
-        }, function(err,newEvent){
-          if(err){
+    } else {
+      Calendar.update(
+        { _id: calendar._id },
+        {
+          $addToSet: {
+            recipe: {
+              name: name,
+              day: date,
+            },
+          },
+        },
+        function (err, newEvent) {
+          if (err) {
             console.log(err);
           }
           res.status(success).json({});
-          res.json({recipe:newEvent});
+          res.json({ recipe: newEvent });
         }
       );
-      
     }
-  })
+  });
 };
 
-exports.deleteRecipe = async(req,res,next) => {
-
-  if(req.body == null){
+exports.deleteRecipeFromCalendar = async (req, res, next) => {
+  if (req.body == null) {
     res.status(badRequest).json({});
     return;
   }
-  
+
   let calId = req.body.calendarId;
   let recipeId = req.body.recipeId;
 
-  Calendar.findOne({_id: req.body.calendar._id},function(err,calendar){
-    if(calendar){
-
-      Calendar.update({"_id":callId}, {
-        "$pull": {
-          recipe:{
-            "_id": recipeId
+  Calendar.findOne({ _id: req.body.calendar._id }, function (err, calendar) {
+    if (calendar) {
+      Calendar.update(
+        { _id: callId },
+        {
+          $pull: {
+            recipe: {
+              _id: recipeId,
+            },
+          },
+        },
+        function (err, deletedRecipe) {
+          if (err) {
+            console.log(err);
           }
+          res.status(success).json({});
+          res.json({ deletedEvent: deletedRecipe });
         }
-      }, function(err,deletedRecipe){
-        if(err){
-          console.log(err);
-        }
-        res.status(success).json({});
-        res.json({deletedEvent: deletedRecipe});
-      });
+      );
     }
-  })
+  });
 };
