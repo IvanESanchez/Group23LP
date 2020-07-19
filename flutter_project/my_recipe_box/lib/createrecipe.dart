@@ -88,18 +88,18 @@ class _CreateRecipe extends State<CreateRecipe> {
 
   @override
   Widget build(BuildContext context) {
-
-    final _formKey = GlobalKey<FormState>();
     //DateTime now = DateTime.now();
     //String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
     String formattedDate = "Recipe Creator";
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Container(
 
         color: Colors.green[50], // change this color to change the background color
         //backgroundColor: Colors.white,
         child: Scaffold(
+        resizeToAvoidBottomPadding: false,
 
         backgroundColor: Colors.green[50],
         // Appbar
@@ -126,7 +126,6 @@ class _CreateRecipe extends State<CreateRecipe> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget> [
                   Form(
-                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -228,7 +227,7 @@ class _CreateRecipe extends State<CreateRecipe> {
             decoration: InputDecoration(labelText: 'View Current Ingredients'),
             onChanged: (String newValue) {
               setState(() {
-                _ingredients.remove(newValue);
+               // _ingredients.remove(newValue);
                 //firstDropdownValue = newValue;
               });
             },
@@ -286,8 +285,6 @@ class _CreateRecipe extends State<CreateRecipe> {
   }
   void _pushIngredient() {
     currentIngredient = new Ingredient();
-
-    GlobalKey _formKey;
     // Push this page onto the stack
     Navigator.of(context).push(
       // MaterialPageRoute will automatically animate the screen entry, as well
@@ -301,7 +298,6 @@ class _CreateRecipe extends State<CreateRecipe> {
                   ),
                   backgroundColor: Colors.green[50],  // Set the background color of the App Bar
                   body: Form(
-                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
