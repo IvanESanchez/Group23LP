@@ -12,10 +12,9 @@ dotenv.config({ path: './config.env' });
 const app = require('./app');
 
 // Connect Database
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
+//const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+//Changed for heroku deployment
+const DB = process.env.MONGODB_URI;
 
 mongoose
   .connect(DB, {
