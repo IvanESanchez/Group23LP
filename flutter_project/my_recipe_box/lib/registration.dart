@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe_box/login.dart';
+import 'package:http/http.dart' as http;
 
 //void main() => runApp(Register());
 
@@ -44,6 +46,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  static final createPostUrl = 'https://virtserver.swaggerhub.com/Xela-Spirit/COP4331-G23-Recipe-Project/1.0.0/api/users/signup';
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController usernameController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController passwordConfirmationController = new TextEditingController();
   TextStyle style = TextStyle(fontFamily: 'OpenSans', fontSize: 20.0);
 
   @override
@@ -57,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final emailField = TextField(
       obscureText: false,
       style: style,
+      controller: emailController,
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -65,42 +73,22 @@ class _MyHomePageState extends State<MyHomePage> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
-    final firstNameField = TextField(
-      obscureText: false,
-      style: style,
-      decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "First Name",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
-    final lastNameField = TextField(
-      obscureText: false,
-      style: style,
-      decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Last Name",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
     final usernameField = TextField(
       obscureText: false,
       style: style,
+      controller: usernameController,
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Username",
+          hintText: "Create username",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
     final passwordField = TextField(
       obscureText: true,
       style: style,
+      controller: passwordController,
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -109,14 +97,39 @@ class _MyHomePageState extends State<MyHomePage> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
-    final registerButon = Material(
+    final passwordConfirmationField = TextField(
+      obscureText: true,
+      style: style,
+      controller: passwordConfirmationController,
+      decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          hintText: "Password confirmation",
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+    );
+    final registerButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Color(0xff4caf50),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () async {
+          var response = await http.post(createPostUrl,
+              body: {'name': usernameController.text,
+                'email': emailController.text,
+                'password': passwordController.text,
+                'passwordConfirm': passwordConfirmationController.text,
+          });
+          if (response.statusCode == 201) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Login()),
+            );
+          }
+        },
         child: Text("Register",
             textAlign: TextAlign.center,
             style: style.copyWith(
@@ -147,17 +160,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(height: 20.0),
                 emailField,
                 SizedBox(height: 10.0),
-                firstNameField,
-                SizedBox(height: 10.0),
-                lastNameField,
-                SizedBox(height: 10.0),
                 usernameField,
                 SizedBox(height: 10.0),
                 passwordField,
+                SizedBox(height: 10.0),
+                passwordConfirmationField,
                 SizedBox(
                   height: 20.0,
                 ),
-                registerButon,
+                registerButton,
                 SizedBox(
                   height: 10.0,
                 ),

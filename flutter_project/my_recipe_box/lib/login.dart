@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:my_recipe_box/main.dart';
 import 'package:my_recipe_box/registration.dart';
 
-//void main() => runApp(Login());
-
 class Login extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,6 +46,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  static final createPostUrl = 'https://virtserver.swaggerhub.com/Xela-Spirit/COP4331-G23-Recipe-Project/1.0.0/api/users/login';
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   TextStyle style = TextStyle(fontSize: 20.0);
 
   @override
@@ -54,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final emailField = TextField(
       obscureText: false,
       style: style,
+      controller: emailController,
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -65,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final passwordField = TextField(
       obscureText: true,
       style: style,
+      controller: passwordController,
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -87,19 +93,34 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         )
     );
-    final loginButon = Material(
+    final loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Color(0xff4caf50),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyHome()),
-          );
+        onPressed: () async {
+          var response = await http.post(createPostUrl,
+              body: {'email': emailController.text,
+                'password': passwordController.text});
+          if (response.statusCode == 200) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyHome()),
+            );
+          }
         },
+          /*Post newPost = new Post(
+          email: emailController.text, password: passwordController.text);
+          Post post = await createPost(createPostUrl, body: newPost.toMap());
+
+          },*/
+
+          // {
+          //    "email": "email@domain.com",
+          //    "password": "pass123"
+          // }
         child: Text("Login",
             textAlign: TextAlign.center,
             style: style.copyWith(
@@ -152,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 35.0,
                 ),
-                loginButon,
+                loginButton,
                 SizedBox(
                   height: 10.0,
                 ),
