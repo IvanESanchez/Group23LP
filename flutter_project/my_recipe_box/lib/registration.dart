@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe_box/login.dart';
 import 'package:http/http.dart' as http;
 
-//void main() => runApp(Register());
 
 class Registration extends StatelessWidget {
   // This widget is the root of your application.
@@ -46,7 +45,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static final createPostUrl = 'https://virtserver.swaggerhub.com/Xela-Spirit/COP4331-G23-Recipe-Project/1.0.0/api/users/signup';
+  static final createPostUrl = 'https://www.myrecipebox.club/api/users/signup';
   TextEditingController emailController = new TextEditingController();
   TextEditingController usernameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
@@ -86,6 +85,13 @@ class _MyHomePageState extends State<MyHomePage> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
     final passwordField = TextField(
+      onChanged: (newValue) {
+        setState(() {
+          //currentIngredient.name = newValue;
+
+          //print(newValue);
+        });
+      },
       obscureText: true,
       style: style,
       controller: passwordController,
@@ -117,13 +123,16 @@ class _MyHomePageState extends State<MyHomePage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
+
           var response = await http.post(createPostUrl,
               body: {'name': usernameController.text,
                 'email': emailController.text,
                 'password': passwordController.text,
                 'passwordConfirm': passwordConfirmationController.text,
           });
-          if (response.statusCode == 201) {
+          print("response is ");
+          print(response.statusCode);
+          if (response.statusCode == 200) { // TODO: add loading icon while waiting
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Login()),
@@ -151,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 100.0,
                   child: Image.asset(
-                    "assets/logo.png",
+                    "logo.png",
                     fit: BoxFit.contain,
                   ),
                 ),

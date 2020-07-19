@@ -3,12 +3,14 @@ import 'package:http/http.dart' as http;
 import 'package:my_recipe_box/main.dart';
 import 'package:my_recipe_box/registration.dart';
 
+
+
 class Login extends StatelessWidget {
   // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
-    /*return MaterialApp(
+    return MaterialApp(
       title: 'Flutter login UI',
       theme: ThemeData(
           // This is the theme of your application.
@@ -23,8 +25,7 @@ class Login extends StatelessWidget {
           primarySwatch: Colors.green,
           fontFamily: 'OpenSans'),
       home: MyHomePage(title: 'Flutter Login'),
-    );*/
-    return MyHomePage(title: 'Flutter Login')
+    );
   }
 }
 
@@ -47,8 +48,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  static final createPostUrl = 'https://virtserver.swaggerhub.com/Xela-Spirit/COP4331-G23-Recipe-Project/1.0.0/api/users/login';
+  static final createPostUrl = 'https://www.myrecipebox.club/api/users/login';
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextStyle style = TextStyle(fontSize: 20.0);
@@ -105,7 +105,10 @@ class _MyHomePageState extends State<MyHomePage> {
           var response = await http.post(createPostUrl,
               body: {'email': emailController.text,
                 'password': passwordController.text});
+          print("response is ");
+          print(response.statusCode);
           if (response.statusCode == 200) {
+
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyHome()),
