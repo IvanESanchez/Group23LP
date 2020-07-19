@@ -8,7 +8,7 @@ class Login extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    /*return MaterialApp(
       title: 'Flutter login UI',
       theme: ThemeData(
           // This is the theme of your application.
@@ -23,7 +23,8 @@ class Login extends StatelessWidget {
           primarySwatch: Colors.green,
           fontFamily: 'OpenSans'),
       home: MyHomePage(title: 'Flutter Login'),
-    );
+    );*/
+    return MyHomePage(title: 'Flutter Login')
   }
 }
 
