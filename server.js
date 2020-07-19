@@ -12,10 +12,9 @@ dotenv.config({ path: './config.env' });
 const app = require('./app');
 
 // Connect Database
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
+//const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+//Changed for heroku deployment
+const DB = process.env.MONGODB_URI;
 
 mongoose
   .connect(DB, {
@@ -37,5 +36,13 @@ process.on('unhandledRejection', (err) => {
   console.log(err.name, err.message);
   server.close(() => {
     process.exit(1);
+  });
+});
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM RECEIVED. Shutting down gracefully');
+
+  server.close(() => {
+    console.log('Process terminated.');
   });
 });

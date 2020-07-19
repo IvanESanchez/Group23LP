@@ -11,15 +11,27 @@ router.use('/:recipeId/ingredients', ingredientRouter);
 router
   .route('/')
   .get(recipeController.getAllRecipes)
-  .post(authController.protect, recipeController.createRecipe);
+  .post(
+    authController.protect,
+    recipeController.uploadRecipeImages,
+    recipeController.resizeRecipeImages,
+    recipeController.createRecipe
+  );
 
 router
   .route('/:id')
   .get(recipeController.getRecipeById)
-  .patch(authController.protect, recipeController.updateRecipeById)
+  .patch(
+    authController.protect,
+    recipeController.uploadRecipeImages,
+    recipeController.resizeRecipeImages,
+    recipeController.updateRecipeById
+  )
   .delete(authController.protect, recipeController.deleteRecipeById);
 
-router.route('/:name').get(recipeController.getRecipeByName);
+// This endpoint works fine now.
+// We should really use queries to query for name but that can be added/fixed later if we have time.
+router.route('/findRecipeByName/:name').get(recipeController.getRecipeByName);
 
 module.exports = router;
 

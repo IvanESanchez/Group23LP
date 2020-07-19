@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const CalendarSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, 'Name is required'],
   },
   userid: {
     // *TODO Ask the boys about doing this instead ****
@@ -13,8 +13,11 @@ const CalendarSchema = new Schema({
     type: String,
     required: [true, 'User is required'],
   },
-  //Comented out because I needed to work on something else - this is a bug tho
-  //recipe: [RecipeSchema],
+  recipe: {
+    type: Schema.ObjectId,
+    ref: 'Recipe',
+    day: String,
+  },
   mealType: {
     type: String,
     mealTypeId: Number,

@@ -55,7 +55,7 @@ const RecipeSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
 });
 
@@ -65,6 +65,7 @@ RecipeSchema.pre(/^find/, function (next) {
     path: 'ingredients',
     select: '-__v',
   });
+  this.find().select('-__v');
 
   next();
 });

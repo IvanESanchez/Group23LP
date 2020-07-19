@@ -14,9 +14,6 @@ const success = 200;
 const badRequest = 400;
 const serverError = 500;
 
-//*TODO Check if everything still works after refactoring
-//*Ask them about ID since we are using protect middleware from authController.js
-
 exports.createIngredient = async (req, res, next) => {
   //console.log(req.user.id);
 
@@ -29,7 +26,7 @@ exports.createIngredient = async (req, res, next) => {
     }
 
     //collect information from body
-	var user = req.user.id
+    var user = req.user.id;
     var ingredients = req.body.ingredients;
 
     //Make sure information exists

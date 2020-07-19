@@ -16,7 +16,10 @@ const UserSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
-  photo: String,
+  photo: {
+    type: String,
+    default: 'default.jpg',
+  },
   password: {
     type: String,
     required: [true, 'Password is required'],
@@ -36,16 +39,20 @@ const UserSchema = new mongoose.Schema({
     select: false,
   },
   passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
+  token: String,
+  tokenExpires: Date,
   active: {
     type: Boolean,
     default: true,
     select: false,
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   calendars: [
     {
@@ -79,7 +86,7 @@ UserSchema.pre('save', function (next) {
 // Query middleware
 
 UserSchema.pre(/^find/, function (next) {
-  this.find({ active: { $ne: false } });
+  this.find({ active: { $ne: false } }).select('-__v');
   next();
 });
 
@@ -101,7 +108,6 @@ UserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
       this.passwordChangedAt.getTime() / 1000,
       10
     );
-
     return JWTTimestamp < changedTimestamp;
   }
 
@@ -109,17 +115,14 @@ UserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
 };
 
 //Create token to reset password
-UserSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString('hex');
+UserSchema.methods.createToken = function () {
+  const newToken = crypto.randomBytes(32).toString('hex');
 
-  this.passwordResetToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex');
+  this.token = crypto.createHash('sha256').update(newToken).digest('hex');
 
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  this.tokenExpires = Date.now() + 10 * 60 * 1000;
 
-  return resetToken;
+  return newToken;
 };
 
 const User = mongoose.model('User', UserSchema);
