@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe_box/getrecipes.dart';
-import 'package:my_recipe_box/myrecipes.dart';
 
-class MyRecipes extends StatelessWidget {
+class TodaysRecipes extends StatelessWidget {
 
 
   @override
