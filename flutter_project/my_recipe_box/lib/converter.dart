@@ -14,7 +14,7 @@ class _ConverterState extends State<Converter> {
   var firstDropdownValue = "Ounces";
   var secondDropdownValue = "Tablespoons";
   var amountEntry = "";
-  var resultValue = "...";
+  var resultValue = "";
   String unitConversion(String amountEntry, String firstUnit, String secondUnit) {
 
 
