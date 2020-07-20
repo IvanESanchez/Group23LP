@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:my_recipe_box/main.dart';
+
+import 'package:http/http.dart' as http;
 
 import 'package:intl/intl.dart'; // necessary for getting the current date for the header bar
 
@@ -10,11 +11,24 @@ class Ingredient {
   String unit;
 }
 
+class Recipe {
+  String title;
+  String instructions;
+  List<Ingredient> ingredients;
+  Recipe(String t, String inst, List<Ingredient> ingr) {
+    title = t;
+    instructions = inst;
+    ingredients = ingr;
+  }
+}
+
+String currentTitle, currentInstructions;
 
 Ingredient currentIngredient;
-
-
 List<Ingredient> _ingredients = [];
+
+Recipe currentRecipe;
+
 // creates a concrete implementation of _CreateRecipe. effectively just a wrapper
 class CreateRecipe extends StatefulWidget {
   CreateRecipe({Key key}) : super(key: key);
@@ -26,6 +40,7 @@ class CreateRecipe extends StatefulWidget {
 
 // this is abstract, but it's where the real magic happens.
 class _CreateRecipe extends State<CreateRecipe> {
+  static final createPostUrl = 'https://www.myrecipebox.club/api/recipes';
 
   Widget buildIngredientList() {
     return new ListView.builder(
@@ -88,6 +103,7 @@ class _CreateRecipe extends State<CreateRecipe> {
 
   @override
   Widget build(BuildContext context) {
+
     //DateTime now = DateTime.now();
     //String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
     String formattedDate = "Recipe Creator";
@@ -99,7 +115,7 @@ class _CreateRecipe extends State<CreateRecipe> {
         color: Colors.green[50], // change this color to change the background color
         //backgroundColor: Colors.white,
         child: Scaffold(
-        resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomPadding: false,
 
         backgroundColor: Colors.green[50],
         // Appbar
@@ -143,7 +159,7 @@ class _CreateRecipe extends State<CreateRecipe> {
                           },
                           onChanged: (newValue) {
                             setState(() {
-                              //TODO set the title here
+                              currentTitle = newValue;
                             });
                           },
                         ),
@@ -165,7 +181,7 @@ class _CreateRecipe extends State<CreateRecipe> {
                             },
                             onChanged: (newValue) {
                               setState(() {
-                               // TODO: set the instructions here
+                                currentInstructions = newValue;
                               });
                             },
                           ),
@@ -203,9 +219,6 @@ class _CreateRecipe extends State<CreateRecipe> {
                 child: RaisedButton.icon(
                   onPressed: () {
                     _pushIngredient();
-                    // Add your onPressed code here!
-
-                    // TODO: add the actual recipe
                   },
                   label: Text("Add Ingredient", style: TextStyle(color: Colors.white)),
                   icon: Icon(Icons.add, color: Colors.white),
@@ -227,7 +240,7 @@ class _CreateRecipe extends State<CreateRecipe> {
             decoration: InputDecoration(labelText: 'View Current Ingredients'),
             onChanged: (String newValue) {
               setState(() {
-               // _ingredients.remove(newValue);
+                _ingredients.remove(newValue);
                 //firstDropdownValue = newValue;
               });
             },
@@ -267,12 +280,28 @@ class _CreateRecipe extends State<CreateRecipe> {
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: 50.0),
           child: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyHome()),
-              );
-              // TODO: add the recipe to the user's list, as well as everyones' "get recipes"
+            onPressed: () async {
+
+
+              currentRecipe = new Recipe(currentTitle, currentInstructions, _ingredients);
+              var response = await http.post(createPostUrl,
+              body: {
+                'name': currentRecipe.title,
+                'ingredients': currentRecipe.ingredients, // TODO: talk to API and figure out how to handle the ingredients properly
+                'directions': currentRecipe.instructions,
+              });
+              //print("response is ");
+              //print(response.statusCode);
+              if (response.statusCode == 200 || response.statusCode == 201) { // TODO: add loading icon while waiting
+                // TODO: take the user back to my recipes or home
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHome()),
+                );
+              } else {
+                // TODO: give error message to user
+              }
+
             },
             child: Icon(Icons.check),
             backgroundColor: Colors.green,
@@ -285,6 +314,7 @@ class _CreateRecipe extends State<CreateRecipe> {
   }
   void _pushIngredient() {
     currentIngredient = new Ingredient();
+
     // Push this page onto the stack
     Navigator.of(context).push(
       // MaterialPageRoute will automatically animate the screen entry, as well
