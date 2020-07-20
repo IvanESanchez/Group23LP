@@ -16,10 +16,26 @@ const RecipeSchema = new Schema({
     minlength: [1, 'Name must have more than 1 character'],
   },
   ingredients: {
+    // type: [
+    //   {
+    //     type: Schema.ObjectId,
+    //     ref: 'Ingredient',
+    //   },
+    // ],
     type: [
       {
-        type: Schema.ObjectId,
-        ref: 'Ingredient',
+        name: {
+          type: String,
+          required: [true, 'Name of ingredient is required'],
+        },
+        unit: {
+          type: String,
+          required: [true, 'Unit of ingredient is required'],
+        },
+        amount: {
+          type: Number,
+          required: [true, 'Amount of ingredient is required'],
+        },
       },
     ],
     required: [true, 'Ingredients are required'],
@@ -61,11 +77,11 @@ const RecipeSchema = new Schema({
 
 //Query middleware
 RecipeSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'ingredients',
-    select: '-__v',
-  });
-  this.find().select('-__v');
+  //   this.populate({
+  //     path: 'ingredients',
+  //     select: '-__v',
+  //   });
+  this.select('-__v');
 
   next();
 });
