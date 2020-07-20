@@ -1,6 +1,4 @@
-var User = require('../models/User');
 var Calendar = require('../models/Calendar');
-var Recipe = require('../models/Recipe');
 
 //*TODO Check if everything still works after refactoring
 
@@ -8,129 +6,174 @@ const success = 200;
 const badRequest = 400;
 const serverError = 500;
 
-exports.createCalendar = async (req, res, next) => {
-  var userCalendar = {};
-  Calendar.create(
-    {
-      name: 'My Calendar',
-      mealType: [
-        { mealTypeId: 0, name: 'Breakfast' },
-        { mealTypeId: 1, name: 'Lunch' },
-        { mealTypeId: 2, name: 'Dinner' },
-        { mealTypeId: 3, name: 'Dessert' },
-        { mealTypeId: 4, name: 'Other' },
-      ],
-    },
-    function (err, calendar) {
-      if (err) {
-        console.log('Cal DB create error: ', err);
-        res.status(serverError).json({});
-        return;
-      }
+// exports.createCalendar = async (req, res, next) => {
+//   var userCalendar = {};
+//   Calendar.create(
+//     {
+//       name: 'My Calendar',
+//       mealType: [
+//         { mealTypeId: 0, name: 'Breakfast' },
+//         { mealTypeId: 1, name: 'Lunch' },
+//         { mealTypeId: 2, name: 'Dinner' },
+//         { mealTypeId: 3, name: 'Dessert' },
+//         { mealTypeId: 4, name: 'Other' },
+//       ],
+//     },
+//     function (calendar) {
+//       user = req.body.user;
 
-      userCalendar = calendar;
-      if (user.calendars) {
-        User.update(
-          { _id: user.id },
-          {
-            $push: {
-              calendars: { calendarId: userCalendar._id },
-            },
-          },
-          function (err, userCalendar) {
-            if (err) {
-              console.log(err);
-            }
-            res.status(success).json({});
-            res.json({ recipe: { calendars: userCalendar._id } });
-          }
-        );
-      } else {
-        User.update(
-          { _id: user.id },
-          {
-            $addToSet: {
-              calendars: { calendarId: userCalendar._id },
-            },
-          },
-          function (err, userCalendar) {
-            if (err) {
-              console.log(err);
-            }
-            res.status(success).json({});
-            res.json({ recipe: { calendars: userCalendar._id } });
-          }
-        );
-      }
-    }
-  );
-};
+//       userCalendar = calendar;
+//       if (user.calendar) {
+//         console.log(userCalendar._id);
+//         User.updateOne(
+//           { _id: user.id },
+//           {
+//             $push: {
+//               calendars: { calendarId: userCalendar._id },
+//             },
+//           },
+//           function (err, userCalendar) {
+//             if (err) {
+//               console.log(err);
+//             }
+//             res.status(success).json({ recipe: { calendars: userCalendar._id } });
+//           }
+//         );
+//       } else {
+//         console.log(userCalendar._id);
+//         User.updateOne(
+          
+//           { _id: user.id },
+//           {
+            
+//             $addToSet: {
+//               calendars: { calendarId: userCalendar._id },
+//             },
+//           },
+//           function (err, userCalendar) {
+//             if (err) {
+//               console.log(err);
+//             }
+//             res.status(success).json({ recipe: { calendars: userCalendar._id } });
+//           }
+//         );
+//       }
+//     }
+//   );
+// };
 
-exports.addRecipeToCalendar = async (req, res, next) => {
-  Calendar.findOne({ _id: req.body.calendar._id }, function (err, calendar) {
-    if (req.body == null) {
-      res.status(badRequest).json({});
-      return;
-    }
+exports.createCalendar = async (req,res,next) => {
 
-    let name = req.body.name;
-    let date = req.body.day;
+  // if(req.user == null){
+  //   res.status(badRequest).json({});
+  //   return;
+  // }
 
-    if (calendar.recipe) {
-      Calendar.update(
-        { _id: calendar._id },
-        {
-          $push: {
-            recipe: {
-              name: name,
-              day: date,
-            },
-          },
-        },
-        function (err, newEvent) {
-          if (err) {
-            console.log(err);
-          }
-          res.status(success).json({});
-          res.json({ recipe: { name: name, day: date } });
-        }
-      );
-    } else {
-      Calendar.update(
-        { _id: calendar._id },
-        {
-          $addToSet: {
-            recipe: {
-              name: name,
-              day: date,
-            },
-          },
-        },
-        function (err, newEvent) {
-          if (err) {
-            console.log(err);
-          }
-          res.status(success).json({});
-          res.json({ recipe: newEvent });
-        }
-      );
-    }
-  });
-};
+  var userId = req.user.id;
+  var username = req.user.name;
 
-exports.deleteRecipeFromCalendar = async (req, res, next) => {
-  if (req.body == null) {
+  if(userId == null || username == null){
     res.status(badRequest).json({});
     return;
   }
 
-  let calId = req.body.calendarId;
-  let recipeId = req.body.recipeId;
+  var calendar = new Calendar({
+    name : username + " Calendar's",
+    userid: userId,
+  });
+  await calendar.save();
+  
+  res.status(success).json({calendar});
 
-  Calendar.findOne({ _id: req.body.calendar._id }, function (err, calendar) {
-    if (calendar) {
-      Calendar.update(
-        { _id: callId },
+}
+
+exports.addRecipeToCalendar = async (req, res, next) => {
+  
+  var recipe = req.body.recipe;
+  if(recipe  == null || req.user == null){
+    res.status(badRequest).json({});
+    return;
+  }
+    let name = recipe[0].name;
+    let date = recipe[0].calendarDate;
+    let userId = req.user.id;
+    let calendarId = req.user.calendarId;
+
+    let userCalendar = await Calendar.findOne({_id: calendarId});
+    // If calendar doesn't exist
+    if(!userCalendar){
+      res.status(badRequest).json({});
+      return;
+    }
+
+    if(userId == null || name == null || date == null){
+      res.status(badRequest).json({});
+      return;
+    }
+
+    // if (calendar.recipe) {
+    //   Calendar.update(
+    //     { _id: user.calendarId },
+    //     {
+    //       $push: {
+    //         recipe: {
+    //           name: name,
+    //           day: date,
+    //         },
+    //       },
+    //     },
+    //     function (err, newEvent) {
+    //       if (err) {
+    //         console.log(err);
+    //       }
+    //       res.status(success).json({ recipe: { name: name, day: date } });
+    //     }
+    //   );
+      Calendar.updateOne(
+        { _id: calendarId},
+        {
+          $addToSet: {
+            recipe: {
+              name: name,
+              calendarDate: date,
+            },
+
+          },
+        },
+        function (err, newEvent) {
+          if (err) {
+            console.log(err);
+          }
+          res.status(success).json({ recipe: {name: name, calendarDate: date}});
+        }
+      );
+};
+
+exports.deleteRecipeFromCalendar = async (req, res, next) => {
+  
+  if (req.body == null || req.user == null) {
+    res.status(badRequest).json({});
+    return;
+  }
+
+  var recipe = req.body.recipe;
+
+  if(recipe){
+    res.status(badRequest).json({});
+    return;
+  }
+
+  let calId = req.user.calendarId;
+  let recipeId = recipe[0]._id;
+  
+  if(calId == null || recipeId == null){
+    res.status(badRequest).json({});
+    return;
+  }
+
+  Calendar.findOne({ _id: calId}, function () {
+      Calendar.updateOne(
+        { _id: calId },
         {
           $pull: {
             recipe: {
@@ -138,14 +181,12 @@ exports.deleteRecipeFromCalendar = async (req, res, next) => {
             },
           },
         },
-        function (err, deletedRecipe) {
+        function (err) {
           if (err) {
             console.log(err);
           }
           res.status(success).json({});
-          res.json({ deletedEvent: deletedRecipe });
         }
       );
-    }
   });
 };
