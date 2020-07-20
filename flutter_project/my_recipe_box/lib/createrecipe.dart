@@ -1,28 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe_box/main.dart';
+import 'package:my_recipe_box/Recipe.dart';
+import 'package:my_recipe_box/Ingredient.dart';
 
 import 'package:http/http.dart' as http;
 
 import 'package:intl/intl.dart'; // necessary for getting the current date for the header bar
 
-class Ingredient {
-  String name;
-  String amount;
-  String unit;
-}
-
-class Recipe {
-  String title;
-  String instructions;
-  List<Ingredient> ingredients;
-  Recipe(String t, String inst, List<Ingredient> ingr) {
-    title = t;
-    instructions = inst;
-    ingredients = ingr;
-  }
-}
-
-String currentTitle, currentInstructions;
+String currentTitle, currentInstructions, currentUnit, currentIngredientName, currentAmount;
 
 Ingredient currentIngredient;
 List<Ingredient> _ingredients = [];
@@ -313,7 +298,6 @@ class _CreateRecipe extends State<CreateRecipe> {
 
   }
   void _pushIngredient() {
-    currentIngredient = new Ingredient();
 
     // Push this page onto the stack
     Navigator.of(context).push(
@@ -348,7 +332,7 @@ class _CreateRecipe extends State<CreateRecipe> {
                           },
                           onChanged: (newValue) {
                             setState(() {
-                              currentIngredient.name = newValue;
+                              currentIngredientName = newValue;
                             });
                           },
                         ),
@@ -373,7 +357,7 @@ class _CreateRecipe extends State<CreateRecipe> {
                             },
                             onChanged: (newValue) {
                               setState(() {
-                                currentIngredient.unit = newValue;
+                                currentUnit = newValue;
                               });
                             },
                           ),
@@ -399,7 +383,7 @@ class _CreateRecipe extends State<CreateRecipe> {
                             },
                             onChanged: (newValue) {
                               setState(() {
-                                currentIngredient.amount = newValue;
+                                currentAmount = newValue;
                               });
                             },
 
@@ -418,6 +402,7 @@ class _CreateRecipe extends State<CreateRecipe> {
                           color: Colors.green,
                           icon: const Icon(Icons.add, color: Colors.white), // NOTE: button icon
                           onPressed:() {
+                            currentIngredient = new Ingredient(currentIngredientName, currentAmount, currentUnit);
                             _addIngredient(currentIngredient);
                             //print("ingredient name is ");
                             //print(ingredientName);
