@@ -2,8 +2,67 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_recipe_box/main.dart';
 import 'package:my_recipe_box/registration.dart';
+import 'dart:convert';
+
+import 'package:json_annotation/json_annotation.dart';
+
+class UserResponse {
+  String status;
+  String token;
+  Data data;
+
+  UserResponse({this.status, this.token, this.data});
+
+  factory UserResponse.fromJson(Map<String, dynamic> parsedJson){
+    return UserResponse(
+      status: parsedJson['status'],
+      token: parsedJson['token'],
+      data: Data.fromJson(parsedJson['data'])
+    );
+  }
+}
+
+class Data{
+  User user;
+
+  Data({this.user});
+
+  factory Data.fromJson(Map<String, dynamic> parsedJson){
+    return Data(
+        user: User.fromJson(parsedJson['user'])
+    );
+  }
+}
+
+class User{
+
+  String photo;
+  String createdAt;
+  String name;
+  String email;
+  List<dynamic> calendars;
+  String token;
+  String tokenExpires;
+
+  @JsonKey(name: '_id')
+  String id;
+
+  User({this.photo, this.createdAt, this.name, this.email, this.calendars, this.token, this.tokenExpires, this.id});
 
 
+
+  factory User.fromJson(Map<String, dynamic> parsedJson){
+    return User(
+        id: parsedJson['_id'],
+        name: parsedJson['name'],
+        email: parsedJson['email'],
+        calendars: parsedJson['calendars'],
+        token: parsedJson['token'],
+        tokenExpires: parsedJson['tokenExpires'],
+    );
+  }
+
+}
 
 class Login extends StatelessWidget {
   // This widget is the root of your application.
@@ -52,6 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextStyle style = TextStyle(fontSize: 20.0);
+  //Response response;
+  Data data;
+  User user;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +170,9 @@ class _MyHomePageState extends State<MyHomePage> {
           print("response is ");
           print(response.statusCode);
           if (response.statusCode == 200) {
-
+            var userresponse = UserResponse.fromJson(json.decode(response.body));
+            print(response.body);
+            print(userresponse.data.user.id);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyHome()),
