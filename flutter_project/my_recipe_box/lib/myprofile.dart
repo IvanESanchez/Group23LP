@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe_box/login.dart';
 
 import 'package:intl/intl.dart'; // necessary for getting the current date for the header bar
 
 class MyProfile extends StatelessWidget {
+ User user;
+
 
   @override
   Widget build(BuildContext context) {

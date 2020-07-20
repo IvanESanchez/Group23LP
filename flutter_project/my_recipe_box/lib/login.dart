@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 
+import 'globals.dart' as globals;
+
 class UserResponse {
   String status;
   String token;
@@ -61,7 +63,14 @@ class User{
         tokenExpires: parsedJson['tokenExpires'],
     );
   }
+}
 
+class Person{
+  String name;
+  String email;
+  List<dynamic> calendars;
+
+  Person(this.name, this.email, this.calendars);
 }
 
 class Login extends StatelessWidget {
@@ -167,12 +176,12 @@ class _MyHomePageState extends State<MyHomePage> {
           var response = await http.post(createPostUrl,
               body: {'email': emailController.text,
                 'password': passwordController.text});
-          print("response is ");
-          print(response.statusCode);
           if (response.statusCode == 200) {
             var userresponse = UserResponse.fromJson(json.decode(response.body));
             print(response.body);
             print(userresponse.data.user.id);
+            globals.email = userresponse.data.user.email;
+            globals.name = userresponse.data.user.name;
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyHome()),

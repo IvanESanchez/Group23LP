@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:my_recipe_box/grocerylist.dart';
 import 'package:my_recipe_box/todaysrecipes.dart';
 import 'package:my_recipe_box/myprofile.dart';
@@ -8,6 +9,7 @@ import 'package:my_recipe_box/createrecipe.dart';
 import 'package:my_recipe_box/calendar.dart';
 import 'package:my_recipe_box/converter.dart';
 import 'package:my_recipe_box/login.dart';
+import 'globals.dart' as globals;
 
 import 'package:intl/intl.dart'; // necessary for getting the current date for the header bar
 
@@ -83,13 +85,16 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
           IconButton(
             icon: Icon(choices[0].icon),
             tooltip: "My Profile",
-            onPressed: () {
+            onPressed: (){
+              print(globals.name);
+              print(globals.email);
+            }/* {
               //_select(choices[0]);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyProfile()),
               );
-            },
+            }*/,
           ),
           // action button
           // overflow menu
