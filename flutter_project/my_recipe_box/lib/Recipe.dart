@@ -9,4 +9,10 @@ class Recipe {
     instructions = inst;
     ingredients = ingr;
   }
-}// TODO Implement this library.
+
+  factory Recipe.fromJson(Map<String, dynamic> parsedJson) {
+    var list = parsedJson['ingredients'] as List;
+    List<Ingredient> ingredientsList = list.map((i) => Ingredient.fromJson(i)).toList();
+    return Recipe(parsedJson['name'], parsedJson['directions'], ingredientsList);
+  }
+}
