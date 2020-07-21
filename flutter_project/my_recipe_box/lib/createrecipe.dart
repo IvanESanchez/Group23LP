@@ -270,9 +270,12 @@ class _CreateRecipe extends State<CreateRecipe> {
             onPressed: () async {
 
 
-              currentRecipe = new Recipe(currentTitle, currentInstructions, _ingredients);
+              currentRecipe = new Recipe(currentTitle, currentInstructions, "placeholder token", _ingredients);
+              print("currentRecipe is ");
+              print(jsonEncode(currentRecipe));
               var response = await http.post(createPostUrl,
               body: {
+                //jsonEncode(currentRecipe)
                 'name': currentRecipe.title,
                 'ingredients': jsonEncode(currentRecipe.ingredients),//currentRecipe.ingredients,//currentRecipe.ingredients, // TODO: talk to API and figure out how to handle the ingredients properly
                 'directions': currentRecipe.instructions,
