@@ -272,18 +272,24 @@ class _CreateRecipe extends State<CreateRecipe> {
 
               currentRecipe = new Recipe(currentTitle, currentInstructions, _ingredients);
               print("currentRecipe is ");
-              print("'name': " + currentRecipe.title + ", "+
+              /*print("'name': " + currentRecipe.title + ", "+
                   "'token': " + token +
                   ", 'ingredients': " + jsonEncode(currentRecipe.ingredients)+
-              ", 'directions': " + currentRecipe.instructions);
+              ", 'directions': " + currentRecipe.instructions); (/
+
+               */
+
+              print(jsonEncode(currentRecipe));
+
               var response = await http.post(createPostUrl,
-              body: {
+
+              body: jsonEncode(currentRecipe)/*{
                 //jsonEncode(currentRecipe)
-                'name': currentRecipe.title,
-                'token': token,
+                'name': "'" + currentRecipe.title.toString() + "'",
+                'token': "'" + token.toString() + "'",
                 'ingredients': jsonEncode(currentRecipe.ingredients),//currentRecipe.ingredients,//currentRecipe.ingredients, // TODO: talk to API and figure out how to handle the ingredients properly
-                'directions': currentRecipe.instructions,
-              });
+                'directions': "'" + currentRecipe.instructions.toString() + "'",
+              }*/);
               print("response is ");
               print(response.statusCode);
               if (response.statusCode == 200 || response.statusCode == 201) { // TODO: add loading icon while waiting

@@ -15,6 +15,7 @@ class Recipe {
       'name': title,
       'ingredients': ingredients,
       'directions': instructions,
+      'token': token,
       //'token': token
     };
   }
