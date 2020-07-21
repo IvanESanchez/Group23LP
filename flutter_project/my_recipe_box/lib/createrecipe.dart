@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe_box/main.dart';
 import 'package:my_recipe_box/Recipe.dart';
 import 'package:my_recipe_box/Ingredient.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:intl/intl.dart'; // necessary for getting the current date for the header bar
 
@@ -78,7 +80,7 @@ class _CreateRecipe extends State<CreateRecipe> {
 
   void _addIngredient(Ingredient ingredient) {
     // Only add the ingredient if the user actually entered something
-    if (ingredient.name.length > 0 && ingredient.amount.length > 0 && ingredient.unit.length > 0) {
+    if (ingredient.name.length > 0 && ingredient.amount != null && ingredient.unit.length > 0) {
       setState(() => _ingredients.add(ingredient));
     }
     print("ingredients is " );
@@ -230,7 +232,7 @@ class _CreateRecipe extends State<CreateRecipe> {
               });
             },
             items: _ingredients.map<DropdownMenuItem<String>>((Ingredient value) {
-              String allIngredientInfo = value.amount + " " + value.unit + "(s) of " + value.name;
+              String allIngredientInfo = value.amount.toString() + " " + value.unit + "(s) of " + value.name;
               return DropdownMenuItem<String>(
                 value: allIngredientInfo,
                 child: Text(allIngredientInfo),
@@ -272,11 +274,11 @@ class _CreateRecipe extends State<CreateRecipe> {
               var response = await http.post(createPostUrl,
               body: {
                 'name': currentRecipe.title,
-                'ingredients': currentRecipe.ingredients, // TODO: talk to API and figure out how to handle the ingredients properly
+                'ingredients': jsonEncode(currentRecipe.ingredients),//currentRecipe.ingredients,//currentRecipe.ingredients, // TODO: talk to API and figure out how to handle the ingredients properly
                 'directions': currentRecipe.instructions,
               });
-              //print("response is ");
-              //print(response.statusCode);
+              print("response is ");
+              print(response.statusCode);
               if (response.statusCode == 200 || response.statusCode == 201) { // TODO: add loading icon while waiting
                 // TODO: take the user back to my recipes or home
                 Navigator.push(
@@ -402,7 +404,7 @@ class _CreateRecipe extends State<CreateRecipe> {
                           color: Colors.green,
                           icon: const Icon(Icons.add, color: Colors.white), // NOTE: button icon
                           onPressed:() {
-                            currentIngredient = new Ingredient(currentIngredientName, currentAmount, currentUnit);
+                            currentIngredient = new Ingredient(currentIngredientName, double.parse(currentAmount), currentUnit);
                             _addIngredient(currentIngredient);
                             //print("ingredient name is ");
                             //print(ingredientName);
