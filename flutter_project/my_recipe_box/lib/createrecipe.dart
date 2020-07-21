@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe_box/main.dart';
 import 'package:my_recipe_box/Recipe.dart';
 import 'package:my_recipe_box/Ingredient.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:my_recipe_box/globals.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -271,12 +271,26 @@ class _CreateRecipe extends State<CreateRecipe> {
 
 
               currentRecipe = new Recipe(currentTitle, currentInstructions, _ingredients);
+              print("currentRecipe is ");
+              /*print("'name': " + currentRecipe.title + ", "+
+                  "'token': " + token +
+                  ", 'ingredients': " + jsonEncode(currentRecipe.ingredients)+
+              ", 'directions': " + currentRecipe.instructions); (/
+
+               */
+
+              print(jsonEncode(currentRecipe));
+
               var response = await http.post(createPostUrl,
-              body: {
-                'name': currentRecipe.title,
+              headers: {'content-type': 'application/json', 'cookie': 'jwt=' + token},
+
+              body: jsonEncode(currentRecipe)/*{
+                //jsonEncode(currentRecipe)
+                'name': "'" + currentRecipe.title.toString() + "'",
+                'token': "'" + token.toString() + "'",
                 'ingredients': jsonEncode(currentRecipe.ingredients),//currentRecipe.ingredients,//currentRecipe.ingredients, // TODO: talk to API and figure out how to handle the ingredients properly
-                'directions': currentRecipe.instructions,
-              });
+                'directions': "'" + currentRecipe.instructions.toString() + "'",
+              }*/);
               print("response is ");
               print(response.statusCode);
               if (response.statusCode == 200 || response.statusCode == 201) { // TODO: add loading icon while waiting
