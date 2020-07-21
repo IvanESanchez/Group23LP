@@ -282,6 +282,7 @@ class _CreateRecipe extends State<CreateRecipe> {
               print(jsonEncode(currentRecipe));
 
               var response = await http.post(createPostUrl,
+              headers: {'content-type': 'application/json', 'cookie': 'jwt=' + token},
 
               body: jsonEncode(currentRecipe)/*{
                 //jsonEncode(currentRecipe)
