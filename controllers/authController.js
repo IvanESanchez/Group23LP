@@ -110,9 +110,6 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-	console.log(req.body);
-	console.log(req.headers);
-
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -142,9 +139,6 @@ exports.logout = (req, res) => {
 
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Check if token exists
-  console.log(req.body);
-  console.log(req.headers);
-
   let token;
   if (
     req.headers.authorization &&
