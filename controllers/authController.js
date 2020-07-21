@@ -110,6 +110,9 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
+	console.log(req.body);
+	console.log(req.headers);
+
   const { email, password } = req.body;
 
   if (!email || !password) {
