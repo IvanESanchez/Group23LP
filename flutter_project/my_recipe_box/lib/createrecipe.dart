@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe_box/main.dart';
 import 'package:my_recipe_box/Recipe.dart';
 import 'package:my_recipe_box/Ingredient.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -273,7 +274,7 @@ class _CreateRecipe extends State<CreateRecipe> {
               var response = await http.post(createPostUrl,
               body: {
                 'name': currentRecipe.title,
-                'ingredients': currentRecipe.ingredients,//currentRecipe.ingredients, // TODO: talk to API and figure out how to handle the ingredients properly
+                'ingredients': jsonEncode(currentRecipe.ingredients),//currentRecipe.ingredients,//currentRecipe.ingredients, // TODO: talk to API and figure out how to handle the ingredients properly
                 'directions': currentRecipe.instructions,
               });
               print("response is ");
