@@ -178,10 +178,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 'password': passwordController.text});
           if (response.statusCode == 200) {
             var userresponse = UserResponse.fromJson(json.decode(response.body));
-            print(response.body);
-            print(userresponse.data.user.id);
+            //print(response.body);
+            //print(userresponse.data.user.id);
             globals.email = userresponse.data.user.email;
             globals.name = userresponse.data.user.name;
+            globals.token = userresponse.data.user.token;
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyHome()),
