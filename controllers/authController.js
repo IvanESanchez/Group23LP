@@ -22,7 +22,7 @@ const createSendToken = (user, statusCode, req, res) => {
     ),
     httpOnly: true,
     //Check if the connection is secured. Test headers in heroku. Heroku acts as a proxy
-    //secure: req.secure || req.headers('x-forwarded-proto') === 'https',
+    secure: req.secure || req.headers('x-forwarded-proto') === 'https',
   };
 
   res.cookie('jwt', token, cookieOptions);
