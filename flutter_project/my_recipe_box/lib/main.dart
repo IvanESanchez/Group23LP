@@ -24,8 +24,8 @@ void main() {
         pageTransitionsTheme: PageTransitionsTheme(builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder(),}),
       ),
       // Home
-      home: //MyHome()));
-  Login()));
+      home: MyHome()));
+  //Login()));
 }
 
 class MyHome extends StatefulWidget {
@@ -104,7 +104,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
       // Set the TabBar view as the body of the Scaffold
       body: TabBarView( // NOTE: TabBarView is the footer of the app
         // Add tabs as widgets
-        children: <Widget>[GroceryList(), TodaysRecipes(), MyRecipes(), Calendar(), Converter()],
+        children: <Widget>[GroceryList(), TodaysRecipes(), GetRecipes(), Calendar(), Converter()],
         // set the controller
         controller: controller,
       ),

@@ -47,8 +47,8 @@ class GetRecipes extends StatelessWidget {
   Widget build(BuildContext context) {
     allRecipes = [];
     Future<bool> egg = retrieveRecipes();
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
+    //DateTime now = DateTime.now();
+    //String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
     List<String> recipeTitles = <String>[];
     List<String> recipeDescriptions = <String>[];
 
@@ -80,13 +80,13 @@ class GetRecipes extends StatelessWidget {
               child: Scaffold(
                   backgroundColor: Colors.green[50],
                   // Appbar
-                  appBar: AppBar( // NOTE: AppBar is the header of the app
+                  /*appBar: AppBar( // NOTE: AppBar is the header of the app
                     // Title
                     // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
-                    title: Text(
+                    //title: Text(
                       //userName + spacing + formattedDate,
-                        formattedDate
-                    ),
+                       // formattedDate
+                    //),
 
                     centerTitle: true,
                     backgroundColor: Colors.green,  // Set the background color of the App Bar
@@ -108,7 +108,7 @@ class GetRecipes extends StatelessWidget {
                       // overflow menu
 
                     ],
-                  ),
+                  ), */
                   // Set the TabBar view as the body of the Scaffold
 
                   body: ListView.separated(
@@ -130,12 +130,40 @@ class GetRecipes extends StatelessWidget {
                               ),
                               ButtonBar(
                                 children: <Widget>[
-                                  FlatButton.icon(
-                                    icon: const Icon(Icons.file_download), // NOTE: button icon
-                                    label: Text("Get Recipe"),
+                                  FlatButton(
+                                    child: const Text("View Recipe"),
                                     color: Colors.red[400],
                                     onPressed: () {
-                                      // NOTE: this is what happens when the "Get Recipe" button is pressed
+                                      // NOTE: this is what happens when the "View Recipe" button is pressed
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return Dialog(
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                                elevation: 16,
+                                                child: Container(
+                                                    height: 600.0, // NOTE: THIS IS THE HEIGHT OF THE RECIPE POP-UP WINDOW
+                                                    width: 400.0,
+                                                    child: ListView(
+                                                        children: <Widget>[
+                                                          SizedBox(height: 20),
+                                                          Center(
+                                                            child: Text(
+                                                              "Recipe Title Placeholder",
+                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 20),
+                                                          Center(child: Text("Recipe Ingredients Placeholder")),
+                                                          SizedBox(height: 20),
+                                                          Center(child: Text("Recipe Instructions Placeholder")),
+                                                        ]
+                                                    )
+                                                )
+                                            );
+                                          }
+
+                                      );
                                     },
                                   ),
                                   /*FlatButton(
