@@ -33,6 +33,6 @@ class Recipe {
     var ingredientsList = List<Ingredient>.from(parsedJson["ingredients"].map((x) => Ingredient.fromJson(x)));
     print("ingredients list is ");
     print(ingredientsList);
-    return Recipe(parsedJson['name'], parsedJson['directions'], ingredientsList);
+    return Recipe(parsedJson['name'], parsedJson['directions'][0], ingredientsList);
   }
 }
