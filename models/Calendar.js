@@ -14,14 +14,9 @@ const CalendarSchema = new Schema({
     required: [true, 'User is required'],
   },
   recipe: {
-    type: Schema.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: 'Recipe',
-    day: String,
-  },
-  mealType: {
-    type: String,
-    mealTypeId: Number,
-  },
+  }
 });
 
 const Calendar = mongoose.model('Calendar', CalendarSchema);

@@ -1,5 +1,9 @@
 const nodemailer = require('nodemailer');
 const sgMail = require('@sendgrid/mail');
+const mailgun = require('mailgun-js')({
+  apiKey: process.env.MAILGUN_API_KEY,
+  domain: process.env.MAILGUN_DOMAIN,
+});
 const pug = require('pug');
 const htmlToText = require('html-to-text');
 
@@ -48,9 +52,15 @@ module.exports = class Email {
     // 3) Actually send the email
 
     if (process.env.NODE_ENV === 'production') {
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      //   try {
+      //     await sgMail.send(mailOptions);
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+
       try {
-        await sgMail.send(mailOptions);
+        await mailgun.messages().send(mailOptions);
       } catch (error) {
         console.log(error);
       }

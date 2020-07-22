@@ -44,6 +44,9 @@ const RecipeSchema = new Schema({
     type: [String],
     required: [true, 'Directions are required'],
   },
+  calendarDate: {
+    type: String
+  },
   courses: {
     type: [String],
   },
