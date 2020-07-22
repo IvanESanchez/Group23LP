@@ -43,7 +43,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
     super.initState();
 
     // Initialize the Tab Controller
-    controller = TabController(length: 5, vsync: this);
+    controller = TabController(length: /*5*/ 2, vsync: this);
   }
 
   @override
@@ -104,7 +104,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
       // Set the TabBar view as the body of the Scaffold
       body: TabBarView( // NOTE: TabBarView is the footer of the app
         // Add tabs as widgets
-        children: <Widget>[GroceryList(), TodaysRecipes(), GetRecipes(), Calendar(), Converter()],
+        children: <Widget>[/*GroceryList(), TodaysRecipes(), */GetRecipes(), /*Calendar(),*/ Converter()],
         // set the controller
         controller: controller,
       ),
@@ -125,7 +125,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
           unselectedLabelStyle: TextStyle(),
 
           tabs: <Tab>[
-            Tab(
+            /*Tab(
               // set icon to the tab
               icon: Icon(Icons.local_grocery_store),
               text: "Grocery\n    List",
@@ -133,15 +133,15 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
             Tab(
               icon: Icon(Icons.today),
               text: "Today's\nRecipes",
-            ),
+            ),*/
             Tab(
               icon: Icon(Icons.list),
-              text: "    My\nRecipes",
+              text: "    Get\nRecipes",
             ),
-            Tab(
+            /*Tab(
               icon: Icon(Icons.calendar_today),
               text: "  Weekly\nCalendar",
-            ),
+            ), */
             Tab(
               icon: Icon(Icons.loop),
               text: "     Unit\nConverter",
