@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_recipe_box/main.dart';
 import 'package:my_recipe_box/registration.dart';
+import 'package:my_recipe_box/forgotpasswordpage.dart';
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -154,7 +155,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final forgotPassword = FlatButton(
         onPressed: () {
-          /*...*/
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+          );
         },
         child: Text(
           'Forgot password? Click here.',
