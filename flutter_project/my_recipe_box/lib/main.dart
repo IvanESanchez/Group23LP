@@ -24,8 +24,8 @@ void main() {
         pageTransitionsTheme: PageTransitionsTheme(builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder(),}),
       ),
       // Home
-      home: MyHome()));
-  //Login()));
+      //home: MyHome()));
+      home: Login()));
 }
 
 class MyHome extends StatefulWidget {
@@ -136,7 +136,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
             ),*/
             Tab(
               icon: Icon(Icons.list),
-              text: "    Get\nRecipes",
+              text: "Recipes",
             ),
             /*Tab(
               icon: Icon(Icons.calendar_today),
@@ -144,7 +144,7 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
             ), */
             Tab(
               icon: Icon(Icons.loop),
-              text: "     Unit\nConverter",
+              text: "Converter",
             ),
           ],
         ),
