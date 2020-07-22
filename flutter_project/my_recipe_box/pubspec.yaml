@@ -28,6 +28,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   table_calendar: ^2.2.3
+  window_location_href: ^0.0.2
 
 dev_dependencies:
   flutter_test:
