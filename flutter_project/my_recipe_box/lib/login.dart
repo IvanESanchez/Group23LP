@@ -209,6 +209,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     final register = FlatButton(
       onPressed: () {
+        //CircularProgressIndicator();
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Registration()),

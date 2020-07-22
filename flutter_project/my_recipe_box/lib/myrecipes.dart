@@ -39,7 +39,36 @@ class MyRecipes extends StatelessWidget {
                             child: const Text("View Recipe"),
                             color: Colors.red[400],
                             onPressed: () {
-                              // NOTE: this is what happens when the "Get Recipe" button is pressed
+                              // NOTE: this is what happens when the "View Recipe" button is pressed
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                  elevation: 16,
+                                  child: Container(
+                                  height: 600.0, // NOTE: THIS IS THE HEIGHT OF THE RECIPE POP-UP WINDOW
+                                  width: 400.0,
+                                  child: ListView(
+                                  children: <Widget>[
+                                    SizedBox(height: 20),
+                                    Center(
+                                      child: Text(
+                                        "Recipe Title Placeholder",
+                                        style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Center(child: Text("Recipe Ingredients Placeholder")),
+                                    SizedBox(height: 20),
+                                      Center(child: Text("Recipe Instructions Placeholder")),
+                                  ]
+                                  )
+                                  )
+                                  );
+                                }
+
+                              );
                             },
                           ),
                           /*FlatButton(
