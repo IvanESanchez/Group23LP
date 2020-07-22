@@ -28,8 +28,11 @@ class Recipe {
   }
 
   factory Recipe.fromJson(Map<String, dynamic> parsedJson) {
-    var list = parsedJson['ingredients'] as List;
-    List<Ingredient> ingredientsList = list.map((i) => Ingredient.fromJson(i)).toList();
-    return Recipe(parsedJson['name'], parsedJson['directions'], /*parsedJson['token'],*/ ingredientsList);
+    //var list = parsedJson['ingredients'] as List;
+    //List<Ingredient> ingredientsList = list.map((i) => Ingredient.fromJson(i)).toList();
+    var ingredientsList = List<Ingredient>.from(parsedJson["ingredients"].map((x) => Ingredient.fromJson(x)));
+    print("ingredients list is ");
+    print(ingredientsList);
+    return Recipe(parsedJson['name'], parsedJson['directions'], ingredientsList);
   }
 }

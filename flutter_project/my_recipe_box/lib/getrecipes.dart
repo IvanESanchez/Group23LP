@@ -1,15 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe_box/createrecipe.dart';
+import 'package:my_recipe_box/Recipe.dart';
+import 'package:my_recipe_box/globals.dart';
+import 'package:my_recipe_box/Data.dart';
 
 import 'package:intl/intl.dart'; // necessary for getting the current date for the header bar
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+List<Recipe> allRecipes = [];
+
 
 class GetRecipes extends StatelessWidget {
+  static final createGetUrl = 'https://www.myrecipebox.club/api/recipes';
 
+  void retrieveRecipes() async {
+
+
+    var response = await http.get(createGetUrl,
+      headers: {'content-type': 'application/json', 'cookie': 'jwt=' + token},
+    );
+    print("response is ");
+    print(response.statusCode);
+
+    //String decodedJson = jsonDecode(createGetUrl);
+    //print("decodedJson is ");
+    //print(decodedJson);
+    var decodedJson = jsonDecode(response.body);
+    //var rec = new Recipe.fromJson(decodedJson);// takes the output of jsondecode(), and creates the recipe object
+
+    print("what we received is ");
+    print(decodedJson['data']);
+
+    allRecipes = Data.fromJson(decodedJson['data']).recipes;
+    print("our list of recipes is ");
+    print(allRecipes);
+
+    // TODO: enter the recipes into the allRecipes list
+  }
 
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
+    retrieveRecipes();
     List<String> recipes = <String>["Recipe Placeholder 1", "Recipe Placeholder 2", "Recipe Placeholder 3"];
     //List<String> ingredients = <String>['Ingredient Placeholder 1', 'Recipe Placeholder 2', 'Recipe Placeholder 3'];
     return Container(

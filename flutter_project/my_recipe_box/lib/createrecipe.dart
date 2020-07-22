@@ -418,7 +418,8 @@ class _CreateRecipe extends State<CreateRecipe> {
                           color: Colors.green,
                           icon: const Icon(Icons.add, color: Colors.white), // NOTE: button icon
                           onPressed:() {
-                            currentIngredient = new Ingredient(currentIngredientName, double.parse(currentAmount), currentUnit);
+                            //currentIngredient = new Ingredient(currentIngredientName, double.parse(currentAmount), currentUnit);
+                            currentIngredient = new Ingredient(name: currentIngredientName, amount: double.parse(currentAmount), unit: currentUnit);
                             _addIngredient(currentIngredient);
                             //print("ingredient name is ");
                             //print(ingredientName);
