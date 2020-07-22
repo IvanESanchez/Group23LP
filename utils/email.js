@@ -26,6 +26,15 @@ module.exports = class Email {
           pass: process.env.EMAIL_PASSWORD,
         },
       });
+    } else if (process.env.NODE_ENV === 'production') {
+      //Gmail
+      return nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: process.env.EMAIL_USERNAMEG,
+          pass: process.env.EMAIL_PASSWORDG,
+        },
+      });
     }
   }
 
@@ -59,11 +68,12 @@ module.exports = class Email {
       //     console.log(error);
       //   }
 
-      try {
-        await mailgun.messages().send(mailOptions);
-      } catch (error) {
-        console.log(error);
-      }
+      //   try {
+      //     await mailgun.messages().send(mailOptions);
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      await this.newTransport().sendMail(mailOptions);
     } else if (process.env.NODE_ENV === 'development') {
       await this.newTransport().sendMail(mailOptions);
     }
