@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _validate = false;
 
   bool validatePasswordStructure(String value){
-    if (value.length < 8 && value.isEmpty) {
+    if (value.length < 8 || value.isEmpty) {
       return false;
     }
     return true;
@@ -210,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       backgroundColor: Colors.green[100],
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: false,
       body: Center(
         child: Container(
           width: 500,
@@ -266,8 +266,8 @@ class _MyHomePageState extends State<MyHomePage> {
       return false;
     }
     else if(!validateStructure(emailController.text)
-        && !validateStructure(usernameController.text)
-        && !validateStructure(passwordConfirmationController.text)){
+        || !validateStructure(usernameController.text)
+        || !validateStructure(passwordConfirmationController.text)){
       setState(() {
         _emailDialog("Error", "All fields required.");
       });
