@@ -104,8 +104,9 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
     await user.save();
 
     // Log the user in, send JWT
-    // createSendToken(user, 200, req, res);
+    
     res.sendFile(path.resolve(__dirname + '/../web/emailverified.html'));
+    createSendToken(user, 200, req, res);
   } else {
     res.sendFile(path.resolve(__dirname + '/../web/tokenexpired.html'));
     // Token is expired. Create a new one and send email again
@@ -222,7 +223,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   //4) Log the user in, send JWT
 
-  //   createSendToken(user, 200, req, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
