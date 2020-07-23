@@ -147,11 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.green[100],
       resizeToAvoidBottomPadding: false,
       body: Center(
         child: Container(
-          width: 500,
           color: Colors.green[50],
           child: Padding(
             padding: const EdgeInsets.all(50.0),

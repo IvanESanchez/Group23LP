@@ -12,7 +12,7 @@ import 'package:intl/intl.dart'; // necessary for getting the current date for t
 String currentTitle, currentInstructions, currentUnit, currentIngredientName, currentAmount;
 
 Ingredient currentIngredient;
-List<Ingredient> _ingredients = [];
+
 
 Recipe currentRecipe;
 
@@ -27,6 +27,7 @@ class CreateRecipe extends StatefulWidget {
 
 // this is abstract, but it's where the real magic happens.
 class _CreateRecipe extends State<CreateRecipe> {
+  List<Ingredient> _ingredients = [];
   static final createPostUrl = 'https://www.myrecipebox.club/api/recipes';
 
   Widget buildIngredientList() {

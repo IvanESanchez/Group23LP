@@ -80,7 +80,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyRecipeBox Login',
+      title: 'Flutter login UI',
       theme: ThemeData(
           // This is the theme of your application.
           //
@@ -180,6 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
           var response = await http.post(createPostUrl,
               body: {'email': emailController.text,
                 'password': passwordController.text});
+          print("statuscode is ");
+          print(response.statusCode);
           if (response.statusCode == 200) {
             var userresponse = UserResponse.fromJson(json.decode(response.body));
             print("response.body is ");
@@ -231,11 +233,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.green[100],
       resizeToAvoidBottomPadding: false,
       body: Center(
         child: Container(
-          width: 500,
           color: Colors.green[50],
           child: Padding(
             padding: const EdgeInsets.all(50.0),

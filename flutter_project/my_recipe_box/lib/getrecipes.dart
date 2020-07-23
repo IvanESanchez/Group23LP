@@ -131,16 +131,29 @@ class GetRecipes extends StatelessWidget {
                     itemCount: recipeTitles.length,
                     separatorBuilder: (BuildContext context, int index) => const Divider(),
                     itemBuilder: (BuildContext context, int index) {
+
+                      int cutoff = 0;
+
+                      if (recipeDescriptions[index].length > 100) {
+                        cutoff = 100;
+                      } else {
+                        cutoff = recipeDescriptions[index].length;
+                      }
+
                       return Container(
+
                         child: Card(
+
                           child: Column(
+
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               ListTile(
 
+
                                 leading: Icon(Icons.local_dining),
                                 title: Text("\n${recipeTitles[index]}"),
-                                subtitle: Text("${recipeDescriptions[index]}"),
+                                subtitle: Text("${recipeDescriptions[index].substring(0, cutoff)}..."),
                               ),
                               ButtonBar(
                                 children: <Widget>[
@@ -153,7 +166,7 @@ class GetRecipes extends StatelessWidget {
                                           context: context,
                                           builder: (context) {
                                             return Dialog(
-                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                                 elevation: 16,
                                                 child: Container(
                                                     height: 600.0, // NOTE: THIS IS THE HEIGHT OF THE RECIPE POP-UP WINDOW
@@ -177,14 +190,21 @@ class GetRecipes extends StatelessWidget {
                                                             style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ ),
                                                           ),),
                                                           //SizedBox(height: 20),
-                                                          Center(
+                                                    Center(
                                                             child: Text("Directions:",
-                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold),
+                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold, ),
+                                                              textAlign: TextAlign.center,
                                                             ),
+
                                                           ),
-                                                          Center(child: Text("${recipeDescriptions[index]}",
-                                                            style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ ),
-                                                          ),),
+
+
+                                                          Padding(
+                                                              padding: const EdgeInsets.all(25.0),
+                                                              child:Center(child: Text("${recipeDescriptions[index]}",
+                                                                style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ ),
+                                                              ),),
+                                                )
                                                         ]
                                                     )
                                                 )
@@ -208,8 +228,11 @@ class GetRecipes extends StatelessWidget {
                     },
 
                   ),
-                  floatingActionButton: FloatingActionButton.extended(
-                    elevation: 0.0,
+                  floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+                  floatingActionButton: Padding(
+                      padding: const EdgeInsets.only(bottom: 25.0),
+                      child: FloatingActionButton.extended(
+                    elevation: 10.0,
                     icon: const Icon(Icons.create), // NOTE: button icon
                     backgroundColor: Colors.red[400], // NOTE: button color
                     onPressed: ()
@@ -220,6 +243,7 @@ class GetRecipes extends StatelessWidget {
                       );
                     },
                     label: Text('Create'),
+                  )
                   )
               )
           )
