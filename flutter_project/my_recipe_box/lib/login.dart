@@ -80,7 +80,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter login UI',
+      title: 'MyRecipeBox Login',
       theme: ThemeData(
           // This is the theme of your application.
           //
@@ -121,9 +121,37 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextStyle style = TextStyle(fontSize: 20.0);
+  bool showProgress = false;
   //Response response;
   Data data;
   User user;
+
+  Future<void> _emailDialog(String title, String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Exit'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,12 +208,13 @@ class _MyHomePageState extends State<MyHomePage> {
           var response = await http.post(createPostUrl,
               body: {'email': emailController.text,
                 'password': passwordController.text});
-          print("statuscode is ");
-          print(response.statusCode);
+          print("response.body is ");
+          print(response.body);
+          String title;
+          String message;
           if (response.statusCode == 200) {
             var userresponse = UserResponse.fromJson(json.decode(response.body));
-            print("response.body is ");
-            print(response.body);
+
             //print(response.body);
             //print(userresponse.data.user.id);
             globals.email = userresponse.data.user.email;
@@ -195,6 +224,24 @@ class _MyHomePageState extends State<MyHomePage> {
               context,
               MaterialPageRoute(builder: (context) => MyHome()),
             );
+
+
+
+          }
+          else if (response.statusCode == 400)  {
+            title = "Incomplete entry";
+            message = "Please provide email and password";
+            _emailDialog(title, message);
+          }
+          else if (response.statusCode == 401) {
+            title = "Invalid entry";
+            message = "Incorrect email or password.";
+            _emailDialog(title, message);
+          }
+          else {
+            title = "Error";
+            message = "Unknown error. Please try again later.";
+            _emailDialog(title, message);
           }
         },
           /*Post newPost = new Post(
@@ -214,6 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
     final register = FlatButton(
+
       onPressed: () {
         //CircularProgressIndicator();
 
@@ -222,6 +270,7 @@ class _MyHomePageState extends State<MyHomePage> {
           MaterialPageRoute(builder: (context) => Registration()),
         );
       },
+
       child: Text(
           'Click here to register.',
           textAlign: TextAlign.center,
@@ -233,9 +282,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.green[100],
       resizeToAvoidBottomPadding: false,
       body: Center(
         child: Container(
+          width: 500,
           color: Colors.green[50],
           child: Padding(
             padding: const EdgeInsets.all(50.0),
