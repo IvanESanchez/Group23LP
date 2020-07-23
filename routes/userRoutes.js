@@ -9,6 +9,7 @@ router.post('/login', authController.login);
 router.get('/logout', authController.logout);
 router.get('/verifyEmail/:token', authController.verifyEmail);
 router.post('/forgotPassword', authController.forgotPassword);
+router.get('/resetPassword/:token', authController.passwordResetPage);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
 // Protected routes
