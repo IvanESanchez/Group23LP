@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe_box/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_recipe_box/resetpassword.dart';
+import 'dart:convert';
 
 //void main() => runApp(Register());
 
@@ -47,9 +48,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static final createUrl = 'https://www.myrecipebox.club/api/users/api/users/forgotPassword';
+  static final createUrl = 'https://www.myrecipebox.club/api/users/forgotPassword';
   TextEditingController emailController = new TextEditingController();
   TextStyle style = TextStyle(fontFamily: 'OpenSans', fontSize: 20.0);
+
+  Map<String,String> headers = {'Content-Type':'application/json'};
 
   Future<void> _emailDialog(String title, String message) async {
     return showDialog<void>(
@@ -106,8 +109,14 @@ class _MyHomePageState extends State<MyHomePage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
+          final emailMessage = jsonEncode({'email': emailController.text});
+          print(emailMessage.toString());
           var response = await http.post(createUrl,
-              body: {'email': emailController.text});
+              headers: headers,
+              body: emailMessage,
+          );
+
+          print(response.body);
           print(response.statusCode);
           String title;
           String message;
@@ -137,9 +146,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.green[100],
       resizeToAvoidBottomPadding: false,
       body: Center(
         child: Container(
+          width: 500,
           color: Colors.green[50],
           child: Padding(
             padding: const EdgeInsets.all(50.0),
