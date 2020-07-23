@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe_box/createrecipe.dart';
+import 'package:my_recipe_box/Ingredient.dart';
 import 'package:my_recipe_box/Recipe.dart';
 import 'package:my_recipe_box/globals.dart';
 import 'package:my_recipe_box/Data.dart';
@@ -51,6 +52,9 @@ class GetRecipes extends StatelessWidget {
     //String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
     List<String> recipeTitles = <String>[];
     List<String> recipeDescriptions = <String>[];
+    List<List<Ingredient>> recipeIngredients = [];
+    List<String> ingredientStrings = [];
+    // TODO: create a list of lists (a list of strings (ingredients) per recipe)
 
 
     print("allrecipes is ");
@@ -71,7 +75,17 @@ class GetRecipes extends StatelessWidget {
             print(allRecipes[i].title);
             recipeTitles.add(allRecipes[i].title);
             recipeDescriptions.add(allRecipes[i].instructions);
+            recipeIngredients.add(allRecipes[i].ingredients);
           }
+
+          for (int i = 0; i < allRecipes.length; i++) {
+            var ingredientString = "";
+            for (int j = 0; j < recipeIngredients[i].length; j++) {
+              ingredientString = ingredientString + recipeIngredients[i][j].amount.toString() + " " + recipeIngredients[i][j].unit + "(s) of " + recipeIngredients[i][j].name + "\n";
+            }
+            ingredientStrings.add(ingredientString);
+          }
+
           //sleep(const Duration(seconds: 1));
           return snapshot.data != null
               ? Container(
@@ -147,16 +161,30 @@ class GetRecipes extends StatelessWidget {
                                                     child: ListView(
                                                         children: <Widget>[
                                                           SizedBox(height: 20),
+
                                                           Center(
-                                                            child: Text(
-                                                              "Recipe Title Placeholder",
-                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold),
+                                                            child: Text("${recipeTitles[index]}",
+                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/fontWeight: FontWeight.bold),
                                                             ),
                                                           ),
                                                           SizedBox(height: 20),
-                                                          Center(child: Text("Recipe Ingredients Placeholder")),
-                                                          SizedBox(height: 20),
-                                                          Center(child: Text("Recipe Instructions Placeholder")),
+                                                          Center(
+                                                            child: Text("Ingredients:",
+                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold),
+                                                            ),
+                                                          ),
+                                                          Center(child: Text("${ingredientStrings[index]}",
+                                                            style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ ),
+                                                          ),),
+                                                          //SizedBox(height: 20),
+                                                          Center(
+                                                            child: Text("Directions:",
+                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold),
+                                                            ),
+                                                          ),
+                                                          Center(child: Text("${recipeDescriptions[index]}",
+                                                            style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ ),
+                                                          ),),
                                                         ]
                                                     )
                                                 )

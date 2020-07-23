@@ -88,13 +88,14 @@ class MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
             onPressed: (){
               print(globals.name);
               print(globals.email);
-            }/* {
-              //_select(choices[0]);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyProfile()),
               );
-            }*/,
+            } //{
+              //_select(choices[0]);
+
+           // },
           ),
           // action button
           // overflow menu
