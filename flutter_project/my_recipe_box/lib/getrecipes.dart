@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe_box/createrecipe.dart';
+import 'package:my_recipe_box/Ingredient.dart';
 import 'package:my_recipe_box/Recipe.dart';
 import 'package:my_recipe_box/globals.dart';
 import 'package:my_recipe_box/Data.dart';
@@ -47,10 +48,13 @@ class GetRecipes extends StatelessWidget {
   Widget build(BuildContext context) {
     allRecipes = [];
     Future<bool> egg = retrieveRecipes();
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
+    //DateTime now = DateTime.now();
+    //String formattedDate = DateFormat("EEEEEEEE, MMM dd").format(now); // NOTE: the month text will be truncated to 4 characters long.
     List<String> recipeTitles = <String>[];
     List<String> recipeDescriptions = <String>[];
+    List<List<Ingredient>> recipeIngredients = [];
+    List<String> ingredientStrings = [];
+    // TODO: create a list of lists (a list of strings (ingredients) per recipe)
 
 
     print("allrecipes is ");
@@ -71,7 +75,17 @@ class GetRecipes extends StatelessWidget {
             print(allRecipes[i].title);
             recipeTitles.add(allRecipes[i].title);
             recipeDescriptions.add(allRecipes[i].instructions);
+            recipeIngredients.add(allRecipes[i].ingredients);
           }
+
+          for (int i = 0; i < allRecipes.length; i++) {
+            var ingredientString = "";
+            for (int j = 0; j < recipeIngredients[i].length; j++) {
+              ingredientString = ingredientString + recipeIngredients[i][j].amount.toString() + " " + recipeIngredients[i][j].unit + "(s) of " + recipeIngredients[i][j].name + "\n";
+            }
+            ingredientStrings.add(ingredientString);
+          }
+
           //sleep(const Duration(seconds: 1));
           return snapshot.data != null
               ? Container(
@@ -80,13 +94,13 @@ class GetRecipes extends StatelessWidget {
               child: Scaffold(
                   backgroundColor: Colors.green[50],
                   // Appbar
-                  appBar: AppBar( // NOTE: AppBar is the header of the app
+                  /*appBar: AppBar( // NOTE: AppBar is the header of the app
                     // Title
                     // TODO: use this link to change the title dynamically: https://stackoverflow.com/questions/52333151/how-to-change-the-app-bar-title-in-flutter
-                    title: Text(
+                    //title: Text(
                       //userName + spacing + formattedDate,
-                        formattedDate
-                    ),
+                       // formattedDate
+                    //),
 
                     centerTitle: true,
                     backgroundColor: Colors.green,  // Set the background color of the App Bar
@@ -108,7 +122,7 @@ class GetRecipes extends StatelessWidget {
                       // overflow menu
 
                     ],
-                  ),
+                  ), */
                   // Set the TabBar view as the body of the Scaffold
 
                   body: ListView.separated(
@@ -117,25 +131,87 @@ class GetRecipes extends StatelessWidget {
                     itemCount: recipeTitles.length,
                     separatorBuilder: (BuildContext context, int index) => const Divider(),
                     itemBuilder: (BuildContext context, int index) {
+
+                      int cutoff = 0;
+
+                      if (recipeDescriptions[index].length > 100) {
+                        cutoff = 100;
+                      } else {
+                        cutoff = recipeDescriptions[index].length;
+                      }
+
                       return Container(
+
                         child: Card(
+
                           child: Column(
+
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               ListTile(
 
+
                                 leading: Icon(Icons.local_dining),
                                 title: Text("\n${recipeTitles[index]}"),
-                                subtitle: Text("${recipeDescriptions[index]}"),
+                                subtitle: Text("${recipeDescriptions[index].substring(0, cutoff)}..."),
                               ),
                               ButtonBar(
                                 children: <Widget>[
-                                  FlatButton.icon(
-                                    icon: const Icon(Icons.file_download), // NOTE: button icon
-                                    label: Text("Get Recipe"),
+                                  FlatButton(
+                                    child: const Text("View Recipe"),
                                     color: Colors.red[400],
                                     onPressed: () {
-                                      // NOTE: this is what happens when the "Get Recipe" button is pressed
+                                      // NOTE: this is what happens when the "View Recipe" button is pressed
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return Dialog(
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                                elevation: 16,
+                                                child: Container(
+                                                    height: 600.0, // NOTE: THIS IS THE HEIGHT OF THE RECIPE POP-UP WINDOW
+                                                    width: 400.0,
+                                                    child: ListView(
+                                                        children: <Widget>[
+                                                          SizedBox(height: 20),
+
+                                                          Center(
+                                                            child: Text("${recipeTitles[index]}",
+                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/fontWeight: FontWeight.bold),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 20),
+                                                          Center(
+                                                            child: Text("Ingredients:",
+                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold),
+                                                            ),
+                                                          ),
+                                                          Center(child: Text("${ingredientStrings[index]}",
+                                                            style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ ),
+                                                          ),),
+                                                          //SizedBox(height: 20),
+                                                    Center(
+                                                            child: Text("Directions:",
+                                                              style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ fontWeight: FontWeight.bold, ),
+                                                              textAlign: TextAlign.center,
+                                                            ),
+
+                                                          ),
+
+
+                                                          Padding(
+                                                              padding: const EdgeInsets.all(25.0),
+                                                              child:Center(child: Text("${recipeDescriptions[index]}",
+                                                                style: TextStyle(fontSize: 24, /*color: Colors.blue,*/ ),
+                                                              ),),
+                                                )
+                                                        ]
+                                                    )
+                                                )
+                                            );
+                                          }
+
+                                      );
                                     },
                                   ),
                                   /*FlatButton(
@@ -152,8 +228,11 @@ class GetRecipes extends StatelessWidget {
                     },
 
                   ),
-                  floatingActionButton: FloatingActionButton.extended(
-                    elevation: 0.0,
+                  floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+                  floatingActionButton: Padding(
+                      padding: const EdgeInsets.only(bottom: 25.0),
+                      child: FloatingActionButton.extended(
+                    elevation: 10.0,
                     icon: const Icon(Icons.create), // NOTE: button icon
                     backgroundColor: Colors.red[400], // NOTE: button color
                     onPressed: ()
@@ -164,6 +243,7 @@ class GetRecipes extends StatelessWidget {
                       );
                     },
                     label: Text('Create'),
+                  )
                   )
               )
           )

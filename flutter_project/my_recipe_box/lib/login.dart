@@ -180,6 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
           var response = await http.post(createPostUrl,
               body: {'email': emailController.text,
                 'password': passwordController.text});
+          print("statuscode is ");
+          print(response.statusCode);
           if (response.statusCode == 200) {
             var userresponse = UserResponse.fromJson(json.decode(response.body));
             print("response.body is ");
