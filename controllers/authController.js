@@ -276,5 +276,5 @@ exports.isLoggedIn = async (req, res, next) => {
 
 //Returns the password reset page
 exports.passwordResetPage = async (req, res, next) => {
-	res.sendFile(__dirname + '/passwordReset/password.html');
+	res.sendFile(__dirname + '/../passwordReset/password.html');
 }
