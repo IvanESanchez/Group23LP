@@ -45,12 +45,54 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var showProgress = false;
   static final createPostUrl = 'https://www.myrecipebox.club/api/users/signup';
   TextEditingController emailController = new TextEditingController();
   TextEditingController usernameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController passwordConfirmationController = new TextEditingController();
   TextStyle style = TextStyle(fontFamily: 'OpenSans', fontSize: 20.0);
+  bool _validate = false;
+
+  bool validatePasswordStructure(String value){
+    if (value.length < 8 && value.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+  bool validateStructure(String value){
+    if (value.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _emailDialog(String title, String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Exit'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
           filled: true,
           fillColor: Colors.white,
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Create username",
+          hintText: "Name",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
@@ -123,20 +165,39 @@ class _MyHomePageState extends State<MyHomePage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
+          showProgress = true;
+          if (validate()) {
+            var response = await http.post(createPostUrl,
+                body: {'name': usernameController.text,
+                  'email': emailController.text,
+                  'password': passwordController.text,
+                  'passwordConfirm': passwordConfirmationController.text,
+                });
 
-          var response = await http.post(createPostUrl,
-              body: {'name': usernameController.text,
-                'email': emailController.text,
-                'password': passwordController.text,
-                'passwordConfirm': passwordConfirmationController.text,
-          });
-          print("response is ");
-          print(response.statusCode);
-          if (response.statusCode == 200) { // TODO: add loading icon while waiting
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Login()),
-            );
+            print("response is ");
+            print(response.statusCode);
+            String title;
+            String message;
+            if (response.statusCode == 200) {
+              title = "Email sent";
+              message = "Please go to your email and verify your account.";
+              _emailDialog(title, message);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
+            }
+            else if (response.statusCode == 500) {
+              title = "Invalid email";
+              message = "This email is already associated with a user.";
+              _emailDialog(title, message);
+            }
+            else {
+              title = "Error";
+              message = "Unknown error. Please try again later.";
+              _emailDialog(title, message);
+            }
+            showProgress = false;
           }
         },
         child: Text("Register",
@@ -144,12 +205,15 @@ class _MyHomePageState extends State<MyHomePage> {
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.w800)),
       ),
+
     );
 
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.green[100],
+      resizeToAvoidBottomInset: true,
       body: Center(
         child: Container(
+          width: 500,
           color: Colors.green[50],
           child: Padding(
             padding: const EdgeInsets.all(50.0),
@@ -181,6 +245,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 10.0,
                 ),
+                Center(
+                    child: showProgress
+                        ? CircularProgressIndicator()
+                        : Text(' ', style: TextStyle(fontSize: 20),)),
               ],
             ),
           ),
@@ -188,4 +256,35 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+  validate(){
+    if(!validatePasswordStructure(passwordController.text)){
+      setState(() {
+        _emailDialog("Invalid password", "Password must contain at least 8 characters.");
+      });
+      showProgress = false;
+      // show dialog/snackbar to get user attention.
+      return false;
+    }
+    else if(!validateStructure(emailController.text)
+        && !validateStructure(usernameController.text)
+        && !validateStructure(passwordConfirmationController.text)){
+      setState(() {
+        _emailDialog("Error", "All fields required.");
+      });
+      showProgress = false;
+      // show dialog/snackbar to get user attention.
+      return false;
+    }
+    else if(passwordController.text.compareTo(passwordConfirmationController.text) != 0){
+      setState(() {
+        _emailDialog("Error", "Passwords do not match.");
+      });
+      showProgress = false;
+      // show dialog/snackbar to get user attention.
+      return false;
+    }
+    return true;
+    // Continue
+  }
 }
+
