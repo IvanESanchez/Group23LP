@@ -104,8 +104,10 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
     await user.save();
 
     // Log the user in, send JWT
-    createSendToken(user, 200, req, res);
+    // createSendToken(user, 200, req, res);
+    res.sendFile(path.resolve(__dirname + '/../web/emailverified.html'));
   } else {
+    res.sendFile(path.resolve(__dirname + '/../web/tokenexpired.html'));
     // Token is expired. Create a new one and send email again
     await generateTokenAndSendEmail(user, 'verifyEmail', req, res, next);
   }
@@ -220,7 +222,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   //4) Log the user in, send JWT
 
-  createSendToken(user, 200, req, res);
+  //   createSendToken(user, 200, req, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -277,5 +279,5 @@ exports.isLoggedIn = async (req, res, next) => {
 
 //Returns the password reset page
 exports.passwordResetPage = async (req, res, next) => {
-	res.sendFile(path.resolve(__dirname + '/../web/password.html'));
-}
+  res.sendFile(path.resolve(__dirname + '/../web/password.html'));
+};
