@@ -126,6 +126,33 @@ class _MyHomePageState extends State<MyHomePage> {
   Data data;
   User user;
 
+  Future<void> _emailDialog(String title, String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Exit'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -183,6 +210,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 'password': passwordController.text});
           print("response.body is ");
           print(response.body);
+          String title;
+          String message;
           if (response.statusCode == 200) {
             var userresponse = UserResponse.fromJson(json.decode(response.body));
 
@@ -196,6 +225,23 @@ class _MyHomePageState extends State<MyHomePage> {
               MaterialPageRoute(builder: (context) => MyHome()),
             );
 
+
+
+          }
+          else if (response.statusCode == 400)  {
+            title = "Incomplete entry";
+            message = "Please provide email and password";
+            _emailDialog(title, message);
+          }
+          else if (response.statusCode == 401) {
+            title = "Invalid entry";
+            message = "Incorrect email or password.";
+            _emailDialog(title, message);
+          }
+          else {
+            title = "Error";
+            message = "Unknown error. Please try again later.";
+            _emailDialog(title, message);
           }
         },
           /*Post newPost = new Post(
