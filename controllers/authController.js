@@ -2,6 +2,7 @@ const { promisify } = require('util');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const path = require('path');
 
 const User = require('./../models/User');
 const catchAsync = require('./../utils/catchAsync');
@@ -276,5 +277,5 @@ exports.isLoggedIn = async (req, res, next) => {
 
 //Returns the password reset page
 exports.passwordResetPage = async (req, res, next) => {
-	res.sendFile(__dirname + '/../web/password.html');
+	res.sendFile(path.resolve(__dirname + '/../web/password.html'));
 }
