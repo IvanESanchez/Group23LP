@@ -106,7 +106,7 @@ exports.verifyEmail = catchAsync(async (req, res, next) => {
     // Log the user in, send JWT
     
     res.sendFile(path.resolve(__dirname + '/../web/emailverified.html'));
-    createSendToken(user, 200, req, res);
+    //createSendToken(user, 200, req, res);
   } else {
     res.sendFile(path.resolve(__dirname + '/../web/tokenexpired.html'));
     // Token is expired. Create a new one and send email again
